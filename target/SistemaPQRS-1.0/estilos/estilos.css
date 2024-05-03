@@ -1,0 +1,99 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    
+}
+container-index{
+    height: 1000px;
+}
+.navbar{
+    height: 200px;
+    width: 100%;
+    background-color: aqua;
+    padding: 0px 40px;
+    font-weight:bold ;
+    background: linear-gradient(aqua,transparent);
+}
+.text-info{
+    margin-top: 30px;
+     margin-left: 50px;
+}
+
+.btn-navbar{
+    text-decoration: none;
+    background-color: black;
+    border-radius: 30px;
+    color: white;
+    padding: 10px 20px;
+}
+.btn-navbar:hover{
+    background-color: rgb(254, 253, 253);
+    color: black;
+}
+.navbar .Logo{
+    text-decoration: none;
+    color: black;
+    
+    font-size: 40px;
+    font-weight: bold;
+    
+}
+
+
+.container-index .row .registro{
+    
+    min-height: 500px;
+   
+    margin: 30px;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    
+    
+}
+.container-index .row .info{
+    
+    min-height: 500px;
+    
+    margin: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    
+}
+.form{
+    margin: 20px 30px;
+    width: 500px;
+    padding: 20px;
+    box-shadow: 4px 4px 4px 4px rgba(77, 76, 76, 0.50);
+    border:none;
+}
+
+.container-index .row .col .titulo{
+    
+    font-weight: bold;
+    font-size: 30px;
+    position: absolute;
+    background-color: white;
+}
+
+footer{
+    min-height: 100px;
+    width: 100%;
+    background-color: black;
+}
+
+/* stilos footer */
+
+footer{
+    text-align: center;
+    text-decoration: none;
+}
+.footer-contacto li{
+    text-decoration: none;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+}
