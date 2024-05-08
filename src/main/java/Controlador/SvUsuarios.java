@@ -7,7 +7,7 @@ package Controlador;
 import Modelo.Usuario;
 import Modelo.Rol;
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +22,6 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "SvUsuarios", urlPatterns = {"/SvUsuarios"})
 public class SvUsuarios extends HttpServlet {
 
-
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -36,6 +34,21 @@ public class SvUsuarios extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String accion = request.getParameter("accion");
+        
+        switch (accion) {
+            case "CerrarSesion":
+                    HttpSession session = request.getSession(false);
+                    
+                    if(session !=null){
+                        session.invalidate();
+                        response.sendRedirect("index.jsp");
+                    }
+                break;
+            default:
+                throw new AssertionError();
+        }
         
     }
 
@@ -51,32 +64,71 @@ public class SvUsuarios extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String accion = request.getParameter("accion");
-        String identificacion = request.getParameter("identificacion");
-        String nombre = request.getParameter("nombre");
-        String apellido = request.getParameter("apellido");
-        String fechaNacimiento = request.getParameter("fechaNacimiento");
-        String genero = request.getParameter("genero");
-        String correo = request.getParameter("correo");
-        String contrasena = request.getParameter("contrasena");
-        String rol = request.getParameter("rol");
-        
+        String identificacion;
+        String nombre;
+        String apellido;
+        String correo;
+        String contrasena;
+
         switch (accion) {
             case "Agregar":
-                if(Usuario.crearUsuario(new Usuario(identificacion, nombre, apellido, fechaNacimiento, genero, correo, contrasena,Rol.darIdCategoria(rol)))){
+
+                identificacion = request.getParameter("identificacion");
+                nombre = request.getParameter("nombre");
+                apellido = request.getParameter("apellido");
+                correo = request.getParameter("correo");
+                contrasena = request.getParameter("contrasena");
+
+                if (Usuario.crearUsuario(new Usuario(identificacion, nombre, apellido, correo, contrasena, 1))) {
                     System.out.println("se ha registrado exitosamente");
+
                     
-                    HttpSession session = request.getSession();
-                    response.sendRedirect("HomeUsuario.jsp");
-                }else{
+                    response.sendRedirect("index.jsp");
+                } else {
                     System.out.println("El usuario ya existe en la base de datos");
                 }
-                    
-                    
+
                 break;
+            case "Session":
+                correo = request.getParameter("correo");
+                contrasena = request.getParameter("contrasena");
+
+                // Es importante validar los datos de entrada para evitar ataques como la inyección de SQL.
+                if (correo == null || contrasena == null) {
+                    // Redirigir al usuario a la página de inicio de sesión con un mensaje de error.
+                    response.sendRedirect("index.jsp?error=Por favor ingrese correo y contraseña");
+                    return;
+                }
+
+                for (Usuario usuario : Usuario.listarUsuarios()) {
+                    // Utilizar equals en lugar de equalsIgnoreCase para la contraseña mejora la seguridad.
+                    if (usuario.getCorreo().equalsIgnoreCase(correo) && usuario.getContrasena().equals(contrasena)) {
+                        //crear session para el usuario
+                        
+                        HttpSession session = request.getSession();
+                        session.setAttribute("usuario", usuario);
+                        
+                        if (usuario.getRol() == 1) {
+                            // Redirigir al administrador a su página de inicio.
+                            response.sendRedirect("HomeUsuario.jsp");
+                            return; // Es importante terminar el método después de enviar una redirección.
+                        } else if (usuario.getRol() == 2) {
+                            // Redirigir al usuario a su página de inicio.
+                            response.sendRedirect("HomeAdministrador.jsp");
+                            return;
+                        }
+                    }
+                }
+
+                // Si no se encuentra el usuario, redirigir a la página de inicio de sesión con un mensaje de error.
+                response.sendRedirect("index.jsp?error=Usuario o contraseña incorrectos");
+
+                break;
+
             default:
                 throw new AssertionError();
         }
-        
+
     }
 
     /**

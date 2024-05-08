@@ -8,7 +8,11 @@
 
 <%@page import="Modelo.Rol"%>
 <!DOCTYPE html>
-<!doctype html>
+
+<%
+
+%>
+
 <html lang="en">
 
 <head>
@@ -85,47 +89,7 @@
               Por favor ingresa tu número de identificación.
             </div>
           </div>
-
-          <!-- Fecha de nacimiento -->
-          <div class="col-md-4">
-            <label for="fechaNacimiento" class="form-label">Fecha De nacimiento</label>
-            <input type="date" class="form-control" name="fechaNacimiento" id="fechaNacimiento" required>
-            <div class="invalid-feedback">
-              Por favor selecciona tu fecha de nacimiento.
-            </div>
-          </div>
-
-          <!-- Género -->
-          <div class="col-md-4">
-            <label for="genero" class="form-label">Género</label>
-            <select class="form-select" id="genero" name="genero" required>
-              <option selected disabled value="">Elige...</option>
-              <option>Masculino</option>
-              <option>Femenino</option>
-              <option>Prefiero no decirlo</option>
-            </select>
-            <div class="invalid-feedback">
-              Por favor elige un género.
-            </div>
-          </div>
-          <!-- Género -->
-          <div class="col-md-3">
-            <label for="genero" class="form-label">Género</label>
-            <select class="form-select" id="genero" name="rol" required>
-                
-                
-              <option selected disabled value="">Elige...</option>
-              <option>Administrado</option>
-              <option>Persona natural</option>
-              
-            </select>
-              
-
-            <div class="invalid-feedback">
-              Por favor elige un género.
-            </div>
-          </div>
-
+         
           <!-- Correo -->
           <div class="col-md-12">
             <label for="correo" class="form-label">Correo</label>
@@ -157,13 +121,13 @@
         </label>
 
         <!-- Formulario de iniciar session -->
-        <form class="row g-3 needs-validation form" novalidate>
+        <form class="row g-3 needs-validation form" method="post" action="SvUsuarios?accion=Session" novalidate>
 
           <!-- Correo -->
           <div class="col-md-12">
-            <label for="correo" class="form-label">Correo</label>
+            <label for="correo" class="form-label" >Correo</label>
             
-            <input type="email" class="form-control" id="correo" required>
+            <input type="email" class="form-control" name="correo" id="correo" required>
             <div class="invalid-feedback">
               Por favor ingresa una dirección de correo válida.
             </div>
@@ -172,14 +136,14 @@
           <!-- Contraseña -->
           <div class="col-md-12">
             <label for="contrasena" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="contrasena" required>
+            <input type="password" class="form-control" name="contrasena" id="contrasena" required>
             <div class="invalid-feedback">
               Por favor ingresa una contraseña.
             </div>
           </div>
 
           <div class="col-md-12 text-center">
-            <button class="btn-navbar" type="submit">Registrarse</button>
+            <button class="btn-navbar" type="submit">iniciar seccion</button>
           </div>
         </form>
       </div>

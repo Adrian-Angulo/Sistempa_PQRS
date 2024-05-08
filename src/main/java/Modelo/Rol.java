@@ -49,7 +49,7 @@ public class Rol {
         ResultSet rs = null;
 
         try (Connection conexion = db_connect.get_connection()) {
-            String query = "SELECT * FROM roles";
+            String query = "SELECT * FROM rol";
             ps = conexion.prepareStatement(query);
             rs = ps.executeQuery();
 

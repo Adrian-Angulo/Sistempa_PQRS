@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,59 +23,25 @@ public class Usuario {
     private String identificacion;
     private String nombre;
     private String apellido;
-
-    private String fechaNacimiento;
-    private String genero;
     private String correo;
     private String contrasena;
+    private Timestamp fechaCreacion;
+    private Timestamp fehcaModificacion;
+    private Timestamp fechaEliminacion;
     private int rol;
     private static List<Usuario> listaUsuarios = new LinkedList<>();
 
     public Usuario() {
     }
 
-    public Usuario(String identificacion, String nombre, String apellido, String fechaNacimiento, String genero, String correo, String contrasena, int rol) {
+    public Usuario(String identificacion, String nombre, String apellido, String correo, String contrasena, int rol) {
+
         this.identificacion = identificacion;
         this.nombre = nombre;
         this.apellido = apellido;
-        
-        this.fechaNacimiento = fechaNacimiento;
-        this.genero = genero;
         this.correo = correo;
         this.contrasena = contrasena;
         this.rol = rol;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getIdentificacion() {
-        return identificacion;
-    }
-
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
-    }
-
-    public int getRol() {
-        return rol;
-    }
-
-    public void setRol(int rol) {
-        this.rol = rol;
-    }
-
-    public static List<Usuario> getListaUsuarios() {
-        return listaUsuarios;
-    }
-
-    public static void setListaUsuarios(List<Usuario> listaUsuarios) {
-        Usuario.listaUsuarios = listaUsuarios;
     }
 
     public int getId_U() {
@@ -85,6 +52,14 @@ public class Usuario {
         this.id_U = id_U;
     }
 
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -93,20 +68,12 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getFechaNacimiento() {
-        return fechaNacimiento;
+    public String getApellido() {
+        return apellido;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getCorreo() {
@@ -125,39 +92,87 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
-    public static boolean crearUsuario(Usuario usu) {
+    public Timestamp getFechaCreacion() {
 
-        if (verificarExistencia(usu) == false) {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Timestamp fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Timestamp getFechaModificacion() {
+        return fehcaModificacion;
+    }
+
+    public void setFechaModificacion(Timestamp fechaModificacion) {
+        this.fehcaModificacion = fechaModificacion;
+    }
+
+    public Timestamp getFechaEliminacion() {
+        return fechaEliminacion;
+    }
+
+    public void setFechaEliminacion(Timestamp fechaEliminacion) {
+        this.fechaEliminacion = fechaEliminacion;
+    }
+
+    public int getRol() {
+        return rol;
+    }
+
+    public void setRol(int rol) {
+        this.rol = rol;
+    }
+
+    public static List<Usuario> getListaUsuarios() {
+        return listaUsuarios;
+    }
+
+    public static void setListaUsuarios(List<Usuario> listaUsuarios) {
+        Usuario.listaUsuarios = listaUsuarios;
+    }
+
+    public static boolean crearUsuario(Usuario usu) {
+        if (!verificarExistencia(usu)) {
             Conexion db_connect = new Conexion();
-            boolean bol = false;
             try (Connection conexion = db_connect.get_connection()) {
-                PreparedStatement ps = null;
-                try {
-                    String query = "INSERT INTO usuarios ( nombre,  apellido,  fechaNacimiento,  genero,  correo,  contrasena,  rol) VALUES (?,?,?,?,?,?,?)";
-                    ps = conexion.prepareStatement(query);
-                    ps.setString(1, usu.getNombre());
-                    ps.setString(2, usu.getApellido());
-                    ps.setString(3, usu.getFechaNacimiento());
-                    ps.setString(4, usu.getGenero());
-                    ps.setString(5, usu.getCorreo());
+                String query = "INSERT INTO usuario (identificacion, nombre, apellido, correo, contrasena, fechaCreacion, fehcaModificacion, fechaEliminacion, rol) VALUES (?,?,?,?,?,?,?,?,?)";
+                try (PreparedStatement ps = conexion.prepareStatement(query)) {
+                    ps.setString(1, usu.getIdentificacion());
+                    ps.setString(2, usu.getNombre());
+                    ps.setString(3, usu.getApellido());
+                    ps.setString(4, usu.getCorreo());
                     ps.setString(5, usu.getContrasena());
+                    ps.setTimestamp(6, usu.getFechaCreacion());
+                    ps.setTimestamp(7, usu.getFechaModificacion());
+                    ps.setTimestamp(8, usu.getFechaEliminacion());
+                    ps.setInt(9, usu.getRol());
 
                     ps.executeUpdate();
-                    System.out.println("Tutorial Agregado");
-                    bol = true;
+                    System.out.println("Usuario Agregado");
+                    listaUsuarios.add(usu);
+                    return true;
                 } catch (SQLIntegrityConstraintViolationException e) {
-                    System.out.println(" \nError: el numero que desea resgistrar ya se encuentra registrado " + e);
+                    System.out.println("Error: el número que desea registrar ya se encuentra registrado " + e);
                 } catch (SQLException ex) {
-                    System.out.println(ex + "el Tutorial no se puedo agregar");
+                    System.out.println("El usuario no se pudo agregar: " + ex.getMessage());
                 }
             } catch (SQLException e) {
-                System.out.println(e);
+                System.out.println("Error de conexión: " + e.getMessage());
             }
-
-            listaUsuarios.add(usu);
-            return true;
         }
         return false;
+    }
+
+    public static String verficarRol(Usuario usu) {
+        for (Rol rol : Rol.listarRoles()) {
+
+            if (usu.getRol() == rol.getId_R()) {
+                return "Administrador";
+            }
+        }
+        return "Persona natural";
     }
 
     public static boolean verificarExistencia(Usuario usu) {
@@ -168,34 +183,57 @@ public class Usuario {
         }
         return false;
     }
-    
-    
-        public static List<Usuario> listarUsuarios() {
+
+    public static List<Usuario> listarUsuarios() {
         List<Usuario> listaUsuarios = new LinkedList<>();
-
         Conexion db_connect = new Conexion();
-
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try (Connection conexion = db_connect.get_connection()) {
-            String query = "SELECT * FROM usuarios";
-            ps = conexion.prepareStatement(query);
-            rs = ps.executeQuery();
-
+        try (Connection conexion = db_connect.get_connection(); PreparedStatement ps = conexion.prepareStatement("SELECT * FROM usuario"); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Usuario usu;
-                usu = new Usuario(rs.getString("identificacion"),rs.getString("nombre"), rs.getString("apellido"),rs.getString("FechaNacimiento"), rs.getString("genero"), rs.getString("correo"),rs.getString("contrasena"), rs.getInt("Rol") );
-
+                Usuario usu = new Usuario(rs.getString("identificacion"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("rol"));
                 usu.setId_U(rs.getInt("Id_U"));
-
+                usu.setFechaCreacion(rs.getTimestamp("fechaCreacion"));
+                usu.setFechaModificacion(rs.getTimestamp("fehcaModificacion"));
+                usu.setFechaEliminacion(rs.getTimestamp("fechaEliminacion"));
                 listaUsuarios.add(usu);
-
             }
         } catch (SQLException ex) {
-
-            System.out.println("no se pudo traer la informacion " + ex);
+            System.out.println("No se pudo traer la información: " + ex.getMessage());
         }
         return listaUsuarios;
     }
+
+    public static List<PQRS> listarPQRS() {
+        List<PQRS> listaPQRS = new LinkedList<>();
+        Conexion db_connect = new Conexion();
+        try (Connection conexion = db_connect.get_connection(); PreparedStatement ps = conexion.prepareStatement("SELECT * FROM pqrs"); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                PQRS pqrs = new PQRS(rs.getString("titulo"),rs.getInt("usuario"), rs.getInt("tipo"), rs.getString("descripcion"), rs.getTimestamp("fechaCreacion"), rs.getInt("estado"));
+                pqrs.setId_pqrs(rs.getInt("id_pqrs"));
+                listaPQRS.add(pqrs);
+            }
+        } catch (SQLException ex) {
+            System.out.println("No se pudo traer la información: " + ex.getMessage());
+        }
+        return listaPQRS;
+    }
+    
+    public static String darNombreUsuario(int id_U){
+        for (Usuario user : listarUsuarios()) {
+            if(user.getId_U() == id_U){
+                return user.getNombre();
+            }
+        }
+        return null;
+    }
+    
+    public static List<PQRS> solucitudesDeUsuario( int id_U){
+        List<PQRS> lista = new LinkedList<>();
+        for (PQRS pqrs : listarPQRS()) {
+            if(pqrs.getUsuario() == id_U){
+                lista.add(pqrs);
+            }
+        }
+        return lista;
+    }
+
 }

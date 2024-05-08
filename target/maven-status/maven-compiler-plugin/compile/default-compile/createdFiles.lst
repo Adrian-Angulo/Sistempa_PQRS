@@ -1,4 +1,8 @@
-Modelo\Conexion.class
-Modelo\Rol.class
+Modelo\TipoSolicitud.class
 Controlador\SvUsuarios.class
 Modelo\Usuario.class
+Modelo\Conexion.class
+Modelo\Rol.class
+Modelo\Estado.class
+Modelo\prueba.class
+Modelo\PQRS.class
