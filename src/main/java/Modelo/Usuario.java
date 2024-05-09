@@ -12,6 +12,9 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -29,7 +32,6 @@ public class Usuario {
     private Timestamp fehcaModificacion;
     private Timestamp fechaEliminacion;
     private int rol;
-    private static List<Usuario> listaUsuarios = new LinkedList<>();
 
     public Usuario() {
     }
@@ -41,6 +43,7 @@ public class Usuario {
         this.apellido = apellido;
         this.correo = correo;
         this.contrasena = contrasena;
+        this.fechaCreacion = Timestamp.valueOf(LocalDateTime.now());
         this.rol = rol;
     }
 
@@ -125,14 +128,6 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public static List<Usuario> getListaUsuarios() {
-        return listaUsuarios;
-    }
-
-    public static void setListaUsuarios(List<Usuario> listaUsuarios) {
-        Usuario.listaUsuarios = listaUsuarios;
-    }
-
     public static boolean crearUsuario(Usuario usu) {
         if (!verificarExistencia(usu)) {
             Conexion db_connect = new Conexion();
@@ -151,7 +146,7 @@ public class Usuario {
 
                     ps.executeUpdate();
                     System.out.println("Usuario Agregado");
-                    listaUsuarios.add(usu);
+
                     return true;
                 } catch (SQLIntegrityConstraintViolationException e) {
                     System.out.println("Error: el número que desea registrar ya se encuentra registrado " + e);
@@ -177,7 +172,7 @@ public class Usuario {
 
     public static boolean verificarExistencia(Usuario usu) {
         for (Usuario usuario : listarUsuarios()) {
-            if (usuario.getId_U() == usu.getId_U()) {
+            if (usuario.getId_U() == usu.getId_U() || usuario.getCorreo().equalsIgnoreCase(usu.getCorreo()) || usuario.getIdentificacion().equalsIgnoreCase(usu.getIdentificacion())) {
                 return true;
             }
         }
@@ -207,7 +202,7 @@ public class Usuario {
         Conexion db_connect = new Conexion();
         try (Connection conexion = db_connect.get_connection(); PreparedStatement ps = conexion.prepareStatement("SELECT * FROM pqrs"); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                PQRS pqrs = new PQRS(rs.getString("titulo"),rs.getInt("usuario"), rs.getInt("tipo"), rs.getString("descripcion"), rs.getTimestamp("fechaCreacion"), rs.getInt("estado"));
+                PQRS pqrs = new PQRS(rs.getString("titulo"), rs.getInt("usuario"), rs.getInt("tipo"), rs.getString("descripcion"), rs.getTimestamp("fechaCreacion"), rs.getInt("estado"));
                 pqrs.setId_pqrs(rs.getInt("id_pqrs"));
                 listaPQRS.add(pqrs);
             }
@@ -216,24 +211,55 @@ public class Usuario {
         }
         return listaPQRS;
     }
-    
-    public static String darNombreUsuario(int id_U){
+
+    public static String darNombreUsuario(int id_U) {
         for (Usuario user : listarUsuarios()) {
-            if(user.getId_U() == id_U){
+            if (user.getId_U() == id_U) {
                 return user.getNombre();
             }
         }
         return null;
     }
-    
-    public static List<PQRS> solucitudesDeUsuario( int id_U){
+
+    public static List<PQRS> solucitudesDeUsuario(int id_U) {
         List<PQRS> lista = new LinkedList<>();
         for (PQRS pqrs : listarPQRS()) {
-            if(pqrs.getUsuario() == id_U){
+            if (pqrs.getUsuario() == id_U) {
                 lista.add(pqrs);
             }
         }
         return lista;
+    }
+
+    public static Usuario validarUsuario(String correo, String pass) {
+        for (Usuario usuario : listarUsuarios()) {
+            if (usuario.getCorreo().equalsIgnoreCase(correo) && usuario.getContrasena().equalsIgnoreCase(pass)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    public static String hashPass(String passwordToHash) {
+        String generatedPassword = null;
+        try {
+            // Create MessageDigest instance for SHA-256
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            // Add password bytes to digest
+            md.update(passwordToHash.getBytes());
+            // Get the hash's bytes
+            byte[] bytes = md.digest();
+            // Convert it to hexadecimal format
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            // Get complete hashed password in hex format
+            generatedPassword = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("error en contraseñaHash: "+e);
+        }
+        return generatedPassword;
     }
 
 }

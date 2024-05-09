@@ -30,7 +30,7 @@
                                 <div>
                                     <div class="number" id="lbltotal"></div>
                                     <div class="caption"><div>Total de Solicitudes</div></div>
-                                    <div class="caption"><div><%= Usuario.solucitudesDeUsuario(usuario.getId_U()).size() %></div></div>
+                                    <div class="caption"><div><%= Usuario.solucitudesDeUsuario(usuario.getId_U()).size()%></div></div>
                                 </div>
                             </article>
                         </div>
@@ -66,7 +66,8 @@
                 </div>
             </div>
 
-            <section class="card">
+
+            <section id="seccionPrincipal">
                 <header class="card-header">
                     Solicitudes
                 </header>
@@ -116,15 +117,8 @@
 
 
 
-                                <%    } else {
+                                <%    }
 
-                                %>
-
-                                <tr>
-                                    <td>No has realizado solicitudes</td>
-                                </tr>
-
-                                <%             }
                                         }
                                     }
                                 %>
@@ -142,6 +136,7 @@
     <!-- Contenido -->
 
 
+   
     <script src="public/js/lib/jquery/jquery.min.js"></script>
     <script src="public/js/lib/tether/tether.min.js"></script>
     <script src="public/js/lib/bootstrap/bootstrap.min.js"></script>

@@ -47,15 +47,16 @@
                 <h5 class="m-t-lg with-border">Ingresar Información</h5>
 
                 <div class="row">
-                    <form method="post" id="ticket_form">
+                    <form method="post" id="ticket_form" class="needs-validation">
 
                         <input type="hidden" id="usu_id" name="usu_id" value="<%= usuario.getNombre()%>">
 
                         <div class="col-lg-12">
-                            <fieldset class="form-group">
-                                <label class="form-label semibold" for="tick_titulo">Titulo</label>
-                                <input type="text" class="form-control" id="tick_titulo" name="tick_titulo" placeholder="Ingrese Titulo">
-                            </fieldset>
+                            <label class="form-label semibold" for="exampleInput">Titulo</label>
+                            <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
                         </div>
 
                         <div class="col-lg-6">
@@ -63,14 +64,28 @@
                                 <label class="form-label semibold" for="exampleInput">Tipo</label>
                                 <select id="cat_id" name="cat_id" class="form-control">
 
+                                    <%
+                                        for (TipoSolicitud tipo : TipoSolicitud.listarTipoSolicitud()) {
+                                    %>
+                                    <option><%= tipo.getNombre_Solicitud()%></option>
+
+                                    <%
+                                        }
+                                    %>
                                 </select>
-                            </fieldset>
+                                <div class="invalid-feedback">
+                                    escojer Tipo
+                                </div>
+
                         </div>
 
                         <div class="col-lg-6">
                             <fieldset class="form-group">
                                 <label class="form-label semibold" for="exampleInput">Documentos Adicionales</label>
                                 <input type="file" name="fileElem" id="fileElem" class="form-control" multiple>
+                                <div class="invalid-feedback">
+                                    Cargar un documento
+                                </div>
                             </fieldset>
                         </div>
 
@@ -79,6 +94,9 @@
                                 <label class="form-label semibold" for="tick_descrip">Descripción</label>
                                 <div class="summernote-theme-1">
                                     <textarea id="tick_descrip" cols="120" name="tick_descrip" class="summernote" name="name"></textarea>
+                                    <div class="invalid-feedback">
+                                        Por favor escribir algo
+                                    </div>
                                 </div>
                             </fieldset>
                         </div>
@@ -106,28 +124,34 @@
 
     </script>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="public/js/lib/jquery/jquery.min.js"></script>
-    <script src="public/js/lib/tether/tether.min.js"></script>
-    <script src="public/js/lib/bootstrap/bootstrap.min.js"></script>
+    <script src="public/js/lib/tether/tether.min.js"></script>  
     <script src="public/js/plugins.js"></script>
     <script src="public/js/app.js"></script>
-
-    <script src="public/js/lib/datatables-net/datatables.min.js"></script>
-
-    <script src="public/js/lib/bootstrap-sweetalert/sweetalert.min.js"></script>
-
-    <script src="public/js/lib/summernote/summernote.min.js"></script>
-
-    <script src="public/js/lib/fancybox/jquery.fancybox.pack.js"></script>
-
-    <script src="public/js/summernote-ES.js"></script>
-
-    <script src="public/js/lib/select2/select2.full.min.js"></script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script type="text/javascript" src="home.js"></script>
+    <script >
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+            'use strict';
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation');
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+
 
 </body>
 </body>

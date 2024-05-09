@@ -66,10 +66,11 @@ container-index{
 .form{
     margin: 20px 30px;
     width: 500px;
-    padding: 20px;
+    padding: 30px;
     box-shadow: 4px 4px 4px 4px rgba(77, 76, 76, 0.50);
     border:none;
 }
+
 
 .container-index .row .col .titulo{
     

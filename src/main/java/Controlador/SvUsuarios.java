@@ -34,22 +34,22 @@ public class SvUsuarios extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String accion = request.getParameter("accion");
-        
+
         switch (accion) {
             case "CerrarSesion":
-                    HttpSession session = request.getSession(false);
-                    
-                    if(session !=null){
-                        session.invalidate();
-                        response.sendRedirect("index.jsp");
-                    }
+                HttpSession session = request.getSession(false);
+
+                if (session != null) {
+                    session.invalidate();
+                    response.sendRedirect("index.jsp");
+                }
                 break;
             default:
                 throw new AssertionError();
         }
-        
+
     }
 
     /**
@@ -79,50 +79,47 @@ public class SvUsuarios extends HttpServlet {
                 correo = request.getParameter("correo");
                 contrasena = request.getParameter("contrasena");
 
-                if (Usuario.crearUsuario(new Usuario(identificacion, nombre, apellido, correo, contrasena, 1))) {
+                if (Usuario.crearUsuario(new Usuario(identificacion, nombre, apellido, correo, Usuario.hashPass(contrasena), 1))) {
                     System.out.println("se ha registrado exitosamente");
 
-                    
                     response.sendRedirect("index.jsp");
                 } else {
-                    System.out.println("El usuario ya existe en la base de datos");
+
+                    // Si no se encuentra el usuario, redirigir a la página de inicio de sesión con un mensaje de error.                    
+                    setAlertAndRedirect("UsuarioYaRegistrado", request, response);
                 }
 
                 break;
             case "Session":
+                //recibir parametros de login
                 correo = request.getParameter("correo");
-                contrasena = request.getParameter("contrasena");
+                contrasena = Usuario.hashPass(request.getParameter("contrasena")) ;
+                System.out.println(contrasena);
+                // verificamos si el usuario existe en la base de datos, si existe lo traer y lo almacena en la varialbe usuario
+                Usuario usuario = Usuario.validarUsuario(correo, contrasena);
 
-                // Es importante validar los datos de entrada para evitar ataques como la inyección de SQL.
-                if (correo == null || contrasena == null) {
-                    // Redirigir al usuario a la página de inicio de sesión con un mensaje de error.
-                    response.sendRedirect("index.jsp?error=Por favor ingrese correo y contraseña");
-                    return;
-                }
+                // si el usuario es diferente de null osea que si existe en la base de datos
+                if (usuario != null) {
 
-                for (Usuario usuario : Usuario.listarUsuarios()) {
-                    // Utilizar equals en lugar de equalsIgnoreCase para la contraseña mejora la seguridad.
-                    if (usuario.getCorreo().equalsIgnoreCase(correo) && usuario.getContrasena().equals(contrasena)) {
-                        //crear session para el usuario
-                        
-                        HttpSession session = request.getSession();
-                        session.setAttribute("usuario", usuario);
-                        
-                        if (usuario.getRol() == 1) {
-                            // Redirigir al administrador a su página de inicio.
-                            response.sendRedirect("HomeUsuario.jsp");
-                            return; // Es importante terminar el método después de enviar una redirección.
-                        } else if (usuario.getRol() == 2) {
-                            // Redirigir al usuario a su página de inicio.
-                            response.sendRedirect("HomeAdministrador.jsp");
-                            return;
-                        }
+                    //crear session para el usuario
+                    HttpSession session = request.getSession();
+                    session.setAttribute("usuario", usuario);
+
+                    // verificamos los el rol que tiene el usuario
+                    if (usuario.getRol() == 1) {
+                        // si el usuarioa es una persona natural redirecionar al HomeUsuairo
+                        response.sendRedirect("HomeUsuario.jsp");
+
+                    } else if (usuario.getRol() == 2) {
+
+                        // si el usuario es una administrador redirigir al HomeAdministrador
+                        response.sendRedirect("HomeAdministrador.jsp");
+
                     }
+                } else {
+                    // si el usuario no existe enviar un mensaje de que el usuarioa no esta registrado
+                    setAlertAndRedirect("UsuarioNoRegistrado", request, response);
                 }
-
-                // Si no se encuentra el usuario, redirigir a la página de inicio de sesión con un mensaje de error.
-                response.sendRedirect("index.jsp?error=Usuario o contraseña incorrectos");
-
                 break;
 
             default:
@@ -131,14 +128,8 @@ public class SvUsuarios extends HttpServlet {
 
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+    private void setAlertAndRedirect(String alertType, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("alerta", alertType);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
 }

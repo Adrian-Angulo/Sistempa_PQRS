@@ -4,13 +4,7 @@
  */
 package Modelo;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class PQRS {
@@ -21,6 +15,7 @@ public class PQRS {
     private int tipo;
     private String descripcion;
     private Timestamp fechaCreacion;
+    private String archivo;
     private int estado;
     
     public PQRS() {
@@ -34,6 +29,14 @@ public class PQRS {
         this.descripcion = descripcion;
         this.fechaCreacion = fechaCreacion;
         this.estado = estado;
+    }
+
+    public String getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(String archivo) {
+        this.archivo = archivo;
     }
 
     

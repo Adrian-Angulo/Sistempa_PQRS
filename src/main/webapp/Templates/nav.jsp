@@ -35,7 +35,7 @@
 <nav class="side-menu">
     <ul class="side-menu-list">
         <li class="blue-dirty">
-            <a href="../HomeUsuario.jsp">
+            <a href="HomeUsuario.jsp">
                 <span class="glyphicon glyphicon-th"></span>
                 <span class="lbl">Inicio</span>
             </a>
