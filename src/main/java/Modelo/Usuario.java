@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -29,14 +30,13 @@ public class Usuario {
     private String correo;
     private String contrasena;
     private Timestamp fechaCreacion;
-    private Timestamp fehcaModificacion;
     private Timestamp fechaEliminacion;
     private int rol;
 
     public Usuario() {
     }
 
-    public Usuario(String identificacion, String nombre, String apellido, String correo, String contrasena, int rol) {
+    public Usuario(String identificacion, String nombre, String apellido, String correo, String contrasena) {
 
         this.identificacion = identificacion;
         this.nombre = nombre;
@@ -44,7 +44,7 @@ public class Usuario {
         this.correo = correo;
         this.contrasena = contrasena;
         this.fechaCreacion = Timestamp.valueOf(LocalDateTime.now());
-        this.rol = rol;
+        this.rol = 1;
     }
 
     public int getId_U() {
@@ -104,14 +104,6 @@ public class Usuario {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public Timestamp getFechaModificacion() {
-        return fehcaModificacion;
-    }
-
-    public void setFechaModificacion(Timestamp fechaModificacion) {
-        this.fehcaModificacion = fechaModificacion;
-    }
-
     public Timestamp getFechaEliminacion() {
         return fechaEliminacion;
     }
@@ -127,23 +119,23 @@ public class Usuario {
     public void setRol(int rol) {
         this.rol = rol;
     }
+    
+    //metodos estaticos para el menejo de los usuarios
 
     public static boolean crearUsuario(Usuario usu) {
         if (!verificarExistencia(usu)) {
             Conexion db_connect = new Conexion();
             try (Connection conexion = db_connect.get_connection()) {
-                String query = "INSERT INTO usuario (identificacion, nombre, apellido, correo, contrasena, fechaCreacion, fehcaModificacion, fechaEliminacion, rol) VALUES (?,?,?,?,?,?,?,?,?)";
+                String query = "INSERT INTO usuario (identificacion, nombre, apellido, correo, contrasena, fechaCreacion, fechaEliminacion, rol) VALUES (?,?,?,?,?,?,?,?)";
                 try (PreparedStatement ps = conexion.prepareStatement(query)) {
                     ps.setString(1, usu.getIdentificacion());
                     ps.setString(2, usu.getNombre());
                     ps.setString(3, usu.getApellido());
                     ps.setString(4, usu.getCorreo());
                     ps.setString(5, usu.getContrasena());
-                    ps.setTimestamp(6, usu.getFechaCreacion());
-                    ps.setTimestamp(7, usu.getFechaModificacion());
-                    ps.setTimestamp(8, usu.getFechaEliminacion());
-                    ps.setInt(9, usu.getRol());
-
+                    ps.setTimestamp(6, usu.getFechaCreacion());     
+                    ps.setTimestamp(7, usu.getFechaEliminacion());
+                    ps.setInt(8, usu.getRol());
                     ps.executeUpdate();
                     System.out.println("Usuario Agregado");
 
@@ -184,10 +176,10 @@ public class Usuario {
         Conexion db_connect = new Conexion();
         try (Connection conexion = db_connect.get_connection(); PreparedStatement ps = conexion.prepareStatement("SELECT * FROM usuario"); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Usuario usu = new Usuario(rs.getString("identificacion"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("rol"));
-                usu.setId_U(rs.getInt("Id_U"));
-                usu.setFechaCreacion(rs.getTimestamp("fechaCreacion"));
-                usu.setFechaModificacion(rs.getTimestamp("fehcaModificacion"));
+                Usuario usu = new Usuario(rs.getString("identificacion"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("correo"), rs.getString("contrasena"));
+                usu.setRol( rs.getInt("rol"));
+                usu.setId_U(rs.getInt("ID_Usuario"));
+                usu.setFechaCreacion(rs.getTimestamp("fechaCreacion"));              
                 usu.setFechaEliminacion(rs.getTimestamp("fechaEliminacion"));
                 listaUsuarios.add(usu);
             }
@@ -197,20 +189,7 @@ public class Usuario {
         return listaUsuarios;
     }
 
-    public static List<PQRS> listarPQRS() {
-        List<PQRS> listaPQRS = new LinkedList<>();
-        Conexion db_connect = new Conexion();
-        try (Connection conexion = db_connect.get_connection(); PreparedStatement ps = conexion.prepareStatement("SELECT * FROM pqrs"); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                PQRS pqrs = new PQRS(rs.getString("titulo"), rs.getInt("usuario"), rs.getInt("tipo"), rs.getString("descripcion"), rs.getTimestamp("fechaCreacion"), rs.getInt("estado"));
-                pqrs.setId_pqrs(rs.getInt("id_pqrs"));
-                listaPQRS.add(pqrs);
-            }
-        } catch (SQLException ex) {
-            System.out.println("No se pudo traer la información: " + ex.getMessage());
-        }
-        return listaPQRS;
-    }
+
 
     public static String darNombreUsuario(int id_U) {
         for (Usuario user : listarUsuarios()) {
@@ -221,15 +200,7 @@ public class Usuario {
         return null;
     }
 
-    public static List<PQRS> solucitudesDeUsuario(int id_U) {
-        List<PQRS> lista = new LinkedList<>();
-        for (PQRS pqrs : listarPQRS()) {
-            if (pqrs.getUsuario() == id_U) {
-                lista.add(pqrs);
-            }
-        }
-        return lista;
-    }
+
 
     public static Usuario validarUsuario(String correo, String pass) {
         for (Usuario usuario : listarUsuarios()) {

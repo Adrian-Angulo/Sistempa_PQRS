@@ -21,7 +21,7 @@ public class Conexion {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistema_pqrs", "root", "admin");
             if(conection !=null){
-                System.out.println("conexion exitosa");
+                
             }
         }catch(SQLException e){
             System.out.println(e);

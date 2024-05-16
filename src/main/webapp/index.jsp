@@ -70,6 +70,10 @@
 
                     </div>
                 </div>
+                
+                
+                
+                
 
                 <!-- Registrar nuevo usuario -->
                 <div id="formResgistro" style="display: none;" class="col registro">
@@ -146,7 +150,7 @@
 
 
                     <!-- Formulario de iniciar session -->
-                    <form class="row g-3 needs-validation form" method="post" action="SvUsuarios?accion=Session" novalidate>
+                    <form class="row g-3 needs-validation form" method="post" action="SvUsuarios?accion=IniciarSesion" novalidate>
 
 
 

@@ -17,30 +17,30 @@ import java.util.List;
  */
 public class Estado {
 
-    private int id_estado;
-    private String nombre_estado;
+    private int ID_Estado;
+    private String nombre;
 
-    public Estado(String nombre_estado) {
-        this.nombre_estado = nombre_estado;
+    public Estado(String nombre) {
+        this.nombre = nombre;
     }
 
     public Estado() {
     }
 
     public int getId_estado() {
-        return id_estado;
+        return ID_Estado;
     }
 
-    public void setId_estado(int id_estado) {
-        this.id_estado = id_estado;
+    public void setId_estado(int ID_Estado) {
+        this.ID_Estado = ID_Estado;
     }
 
     public String getNombre_estado() {
-        return nombre_estado;
+        return nombre;
     }
 
-    public void setNombre_estado(String nombre_estado) {
-        this.nombre_estado = nombre_estado;
+    public void setNombre_estado(String nombre) {
+        this.nombre = nombre;
     }
 
     public static List<Estado> listarEstado() {
@@ -48,8 +48,8 @@ public class Estado {
         Conexion db_connect = new Conexion();
         try (Connection conexion = db_connect.get_connection(); PreparedStatement ps = conexion.prepareStatement("SELECT * FROM estado"); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Estado estado = new Estado(rs.getString("nombre_estado"));
-                estado.setId_estado(rs.getInt("id_estado"));
+                Estado estado = new Estado(rs.getString("nombre"));
+                estado.setId_estado(rs.getInt("ID_Estado"));
 
                 listaEstados.add(estado);
             }
@@ -60,9 +60,9 @@ public class Estado {
     }
     
     
-    public static String darEstado(int id_estado){
+    public static String darEstado(int ID_Estado){
         for (Estado estado : listarEstado()) {
-            if(estado.getId_estado() == id_estado){
+            if(estado.getId_estado() == ID_Estado){
                 return estado.getNombre_estado();
             }
         }

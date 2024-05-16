@@ -30,7 +30,7 @@
                                 <div>
                                     <div class="number" id="lbltotal"></div>
                                     <div class="caption"><div>Total de Solicitudes</div></div>
-                                    <div class="caption"><div><%= Usuario.solucitudesDeUsuario(usuario.getId_U()).size()%></div></div>
+                                    <div class="caption"><div></div></div>
                                 </div>
                             </article>
                         </div>
@@ -86,20 +86,21 @@
                             </thead>
                             <tbody>
 
-                                <%                                        List<PQRS> listaDeSolicitudes = Usuario.listarPQRS();
+                                <%                                        List<Solicitud> listaDeSolicitudes = null;
 
                                     if (listaDeSolicitudes == null || listaDeSolicitudes.isEmpty()) {
 
                                 %>
                                 <tr>
-                                    No hay solicitudes
+                                    <td colspan="5">No hay solicitudes</td>
+                                    
                                 </tr>
 
 
 
 
                                 <%                                    } else {
-                                    for (PQRS solicitud : listaDeSolicitudes) {
+                                    for (Solicitud solicitud : listaDeSolicitudes) {
 
                                         if (solicitud.getUsuario() == usuario.getId_U()) {
 
@@ -109,7 +110,7 @@
                                 <tr>
                                     <th scope="row"><%= solicitud.getId_pqrs()%></th>
                                     <td><%= Usuario.darNombreUsuario(solicitud.getUsuario())%></td>
-                                    <td><%= TipoSolicitud.darTipoSolicitud(solicitud.getTipo())%></td>
+                                    <td><%= Tipo.darTipoSolicitud(solicitud.getTipo())%></td>
                                     <td><%= solicitud.getFechaCreacion()%></td>
                                     <td><%= Estado.darEstado(solicitud.getEstado())%></td>
                                 </tr>

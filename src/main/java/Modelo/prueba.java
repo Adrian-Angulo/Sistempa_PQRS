@@ -17,7 +17,5 @@ public class prueba {
     
     public static void main(String[] args) {
         
-        Timestamp Fecha_hora = Timestamp.valueOf(LocalDateTime.now());
-        
     }
 }

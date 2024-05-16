@@ -1,7 +1,7 @@
 <%@page import="Modelo.Estado"%>
-<%@page import="Modelo.TipoSolicitud"%>
+<%@page import="Modelo.Tipo"%>
 <%@page import="java.util.List"%>
-<%@page import="Modelo.PQRS"%>
+<%@page import="Modelo.Solicitud"%>
 <%@page import="Modelo.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

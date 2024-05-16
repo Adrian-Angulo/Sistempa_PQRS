@@ -46,65 +46,68 @@
 
                 <h5 class="m-t-lg with-border">Ingresar Información</h5>
 
-                <div class="row">
-                    <form method="post" id="ticket_form" class="needs-validation">
 
-                        <input type="hidden" id="usu_id" name="usu_id" value="<%= usuario.getNombre()%>">
+
+
+                <!-- formulario para enviar la peticion -->
+
+                <div class="row">
+
+
+
+                    <form method="POST" action="SvSolicitudes?" onsubmit="return validarFormulario()" id="ticket_form" enctype="multipart/form-data" class="needs-validation">
 
                         <div class="col-lg-12">
-                            <label class="form-label semibold" for="exampleInput">Titulo</label>
-                            <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
-                            <div class="valid-feedback">
-                                Looks good!
+                            <label class="form-label semibold" for="titulo">Título</label>
+                            <input type="text" class="form-control" name="Titulo"  required>
+                            <div class="invalid-feedback">
+                                Por favor ingresa un título.
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <fieldset class="form-group">
-                                <label class="form-label semibold" for="exampleInput">Tipo</label>
-                                <select id="cat_id" name="cat_id" class="form-control">
-
-                                    <%
-                                        for (TipoSolicitud tipo : TipoSolicitud.listarTipoSolicitud()) {
-                                    %>
-                                    <option><%= tipo.getNombre_Solicitud()%></option>
-
-                                    <%
-                                        }
-                                    %>
+                                <label class="form-label semibold" for="tipo">Tipo</label>
+                                <select id="tipo" name="tipo" class="form-control" required>
+                                    <% for (Tipo tipo : Tipo.listarTipo()) {%>
+                                    <option value="<%= tipo.getId_tipoSolicitud()%>"><%= tipo.getNombre_Solicitud()%></option>
+                                    <% }%>
                                 </select>
                                 <div class="invalid-feedback">
-                                    escojer Tipo
+                                    Por favor escoge un tipo.
                                 </div>
-
+                            </fieldset>    
                         </div>
 
                         <div class="col-lg-6">
                             <fieldset class="form-group">
-                                <label class="form-label semibold" for="exampleInput">Documentos Adicionales</label>
-                                <input type="file" name="fileElem" id="fileElem" class="form-control" multiple>
+                                <label class="form-label semibold" for="documento">Documentos Adicionales</label>
+                                <input type="file" name="documento" id="documento" accept="application/pdf" class="form-control" multiple >
                                 <div class="invalid-feedback">
-                                    Cargar un documento
+                                    Por favor carga un documento.
                                 </div>
                             </fieldset>
                         </div>
 
                         <div class="col-lg-12">
                             <fieldset class="form-group">
-                                <label class="form-label semibold" for="tick_descrip">Descripción</label>
-                                <div class="summernote-theme-1">
-                                    <textarea id="tick_descrip" cols="120" name="tick_descrip" class="summernote" name="name"></textarea>
-                                    <div class="invalid-feedback">
-                                        Por favor escribir algo
-                                    </div>
+                                <label class="form-label semibold" for="descripcion">Descripción</label>
+                                <textarea id="descripcion" name="descripcion" class="form-control summernote" required></textarea>
+                                <div class="invalid-feedback">
+                                    Por favor escribe una descripción.
                                 </div>
                             </fieldset>
                         </div>
+
                         <div class="col-lg-12">
-                            <button type="submit" name="action" value="add" class="btn btn-rounded btn-inline btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-rounded btn-inline btn-primary">Guardar</button>
                         </div>
                     </form>
+
                 </div>
+
+
+
 
             </div>
         </div>
@@ -122,6 +125,19 @@
                     console.error(error);
                 });
 
+    </script>
+
+    <script>
+        function validarFormulario() {
+            var descripcion = document.getElementById('descripcion').value;
+            var documento = document.getElementById('documento').files.length;
+
+            if (descripcion === '' && documento === 0) {
+                alert('Por favor, completa la descripción o carga un documento.');
+                return false;
+            }
+            return true;
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -151,7 +167,25 @@
             });
         })();
     </script>
+    <script>
+        function enviarFormulario() {
+            var formData = new FormData(document.getElementById('usu_id'));
 
+            fetch('SvSolicitudes', {
+                method: 'POST',
+                body: formData
+            })
+                    .then(function (response) {
+                        return response.text();
+                    })
+                    .then(function (textoDelServidor) {
+                        console.log(textoDelServidor);
+                    })
+                    .catch(function (error) {
+                        console.error('Error:', error);
+                    });
+        }
+    </script>
 
 </body>
 </body>
