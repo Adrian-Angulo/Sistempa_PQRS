@@ -67,9 +67,9 @@ public class Tipo {
         return null;
     }
 
-    public static int darIdSolicitud(String Solicitud) {
+    public static int darIdSolicitud(String solicitud) {
         for (Tipo tipo : listarTipo()) {
-            if (tipo.getNombre_Solicitud().equalsIgnoreCase(Solicitud)) {
+            if (tipo.getNombre_Solicitud().equalsIgnoreCase(solicitud)) {
                 return tipo.getId_tipoSolicitud();
             }
         }

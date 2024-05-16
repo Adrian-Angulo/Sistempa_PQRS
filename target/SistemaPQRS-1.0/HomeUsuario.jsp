@@ -30,7 +30,7 @@
                                 <div>
                                     <div class="number" id="lbltotal"></div>
                                     <div class="caption"><div>Total de Solicitudes</div></div>
-                                    <div class="caption"><div></div></div>
+                                    <div class="caption"><div><%= Solicitud.solucitudesDeUsuario(usuario.getId_U()).size() %> </div></div>
                                 </div>
                             </article>
                         </div>
@@ -76,17 +76,18 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nombre</th>
+                                    
+                                    <th scope="col">Asunto</th>
                                     <th scope="col">Tipo</th>
-                                    <th scope="col">Fecha</th>
                                     <th scope="col">estado</th>
+                                    <th scope="col">Fecha de Envio</th>
+                                    <th scope="col">Fecha de vencimiento</th>
 
                                 </tr>
                             </thead>
                             <tbody>
 
-                                <%                                        List<Solicitud> listaDeSolicitudes = null;
+                                <%                                        List<Solicitud> listaDeSolicitudes = Solicitud.solucitudesDeUsuario(usuario.getId_U());
 
                                     if (listaDeSolicitudes == null || listaDeSolicitudes.isEmpty()) {
 
@@ -102,23 +103,24 @@
                                 <%                                    } else {
                                     for (Solicitud solicitud : listaDeSolicitudes) {
 
-                                        if (solicitud.getUsuario() == usuario.getId_U()) {
+                                        
 
 
                                 %>
 
                                 <tr>
-                                    <th scope="row"><%= solicitud.getId_pqrs()%></th>
-                                    <td><%= Usuario.darNombreUsuario(solicitud.getUsuario())%></td>
+                                    
+                                    <td><%= solicitud.getTitulo() %></td>
                                     <td><%= Tipo.darTipoSolicitud(solicitud.getTipo())%></td>
-                                    <td><%= solicitud.getFechaCreacion()%></td>
                                     <td><%= Estado.darEstado(solicitud.getEstado())%></td>
+                                    <td><%= solicitud.getFechaCreacion()%></td>
+                                    <td><%= solicitud.getFechaDeRespuesta() %></td>
                                 </tr>
 
 
 
 
-                                <%    }
+                                <%    
 
                                         }
                                     }

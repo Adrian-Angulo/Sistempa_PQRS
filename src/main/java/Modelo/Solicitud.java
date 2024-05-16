@@ -23,7 +23,7 @@ public class Solicitud {
     private String descripcion;
     private Timestamp fechaCreacion;
     private Timestamp fechaCierre;
-    private LocalDate fechaDeRespuesta;
+    private String fechaDeRespuesta;
     private int estado;
     private String archivo;
 
@@ -37,7 +37,7 @@ public class Solicitud {
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.fechaCreacion = Timestamp.valueOf(LocalDateTime.now());
-        this.fechaDeRespuesta = LocalDate.now().plusDays(15);
+        this.fechaDeRespuesta = String.valueOf(LocalDate.now().plusDays(15)) ;
         this.estado = 1;
         
     }
@@ -54,13 +54,22 @@ public class Solicitud {
         this.fechaCierre = fechaCierre;
     }
 
-    public LocalDate getFechaDeRespuesta() {
+    public int getId_Solicitud() {
+        return id_Solicitud;
+    }
+
+    public void setId_Solicitud(int id_Solicitud) {
+        this.id_Solicitud = id_Solicitud;
+    }
+
+    public String getFechaDeRespuesta() {
         return fechaDeRespuesta;
     }
 
-    public void setFechaDeRespuesta(LocalDate fechaDeRespuesta) {
+    public void setFechaDeRespuesta(String fechaDeRespuesta) {
         this.fechaDeRespuesta = fechaDeRespuesta;
     }
+
 
     public void setArchivo(String archivo) {
         this.archivo = archivo;
@@ -163,9 +172,8 @@ public class Solicitud {
             while (rs.next()) {
                 Solicitud solicitud = new Solicitud(rs.getString("titulo"), rs.getInt("usuario"), rs.getInt("tipo"), rs.getString("descripcion"));
                 solicitud.setId_pqrs(rs.getInt("ID_Solicitud"));
-
                 solicitud.setFechaCreacion(rs.getTimestamp("fechaCreacion"));
-                solicitud.setFechaDeRespuesta(LocalDate.parse(rs.getString("fechaRespuesta")));
+                solicitud.setFechaDeRespuesta(rs.getString("fechaRespuesta"));
                 solicitud.setArchivo(rs.getString("documento"));
                 listaPQRS.add(solicitud);
             }

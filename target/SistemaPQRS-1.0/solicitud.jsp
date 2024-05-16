@@ -120,7 +120,7 @@
 
     <script>
         ClassicEditor
-                .create(document.querySelector('#tick_descrip'), )
+                .create(document.querySelector('#descripcion'), )
                 .catch(error => {
                     console.error(error);
                 });
