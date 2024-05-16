@@ -23,6 +23,7 @@
                                     <div>
                                         <div class="number" id="lbltotal"></div>
                                         <div class="caption"><div>Total de Solicitudes</div></div>
+                                        <div class="caption"><div><%= Solicitud.listarSolicitudes().size() %></div></div>
                                     </div>
                                 </article>
                             </div>
@@ -30,7 +31,8 @@
                                 <article class="statistic-box yellow">
                                     <div>
                                         <div class="number" id="lbltotalabierto"></div>
-                                        <div class="caption"><div>Total de Solicitudes Abiertos</div></div>
+                                        <div class="caption"><div>Total de Solicitudes en proceso</div></div>
+                                        <div class="caption"><div><%= Solicitud.solucitudesEnProceso(usuario) %></div></div>
                                     </div>
                                 </article>
                             </div>
@@ -55,7 +57,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
+                                        
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Tipo</th>
                                         <th scope="col">Fecha</th>
@@ -66,7 +68,7 @@
                                 <tbody>
 
                                     <%
-                                        List<PQRS> listaDeSolicitudes = Usuario.listarPQRS();
+                                        List<Solicitud> listaDeSolicitudes = Solicitud.listarSolicitudes();
 
                                         if (listaDeSolicitudes == null || listaDeSolicitudes.isEmpty()) {
 
@@ -79,14 +81,14 @@
 
 
                                     <%                                    } else {
-                                        for (PQRS solicitud : listaDeSolicitudes) {
+                                        for (Solicitud solicitud : listaDeSolicitudes) {
                                     %>
 
                                     <tr>
-                                        <th scope="row"><%= solicitud.getId_pqrs() %></th>
+                                        
                                         <td><%= Usuario.darNombreUsuario(solicitud.getUsuario())%></td>
-                                        <td><%= TipoSolicitud.darTipoSolicitud(solicitud.getTipo())%></td>
-                                        <td><%= solicitud.getFechaCreacion() %></td>
+                                        <td><%= Tipo.darTipoSolicitud(solicitud.getTipo())%></td>
+                                        <td><%= solicitud.getFechaCreacion()%></td>
                                         <td><%= Estado.darEstado(solicitud.getEstado())  %></td>
                                     </tr>
 

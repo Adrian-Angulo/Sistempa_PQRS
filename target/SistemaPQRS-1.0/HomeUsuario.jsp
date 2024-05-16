@@ -40,7 +40,7 @@
                                 <div>
                                     <div class="number" id="lbltotalabierto"></div>
                                     <div class="caption"><div>Solicitudes en proceso</div></div>
-                                    <div class="caption"><div>0</div></div>
+                                    <div class="caption"><div> <%= Solicitud.solucitudesEnProceso(usuario) %></div></div>
                                 </div>
                             </article>
                         </div>
@@ -49,7 +49,7 @@
                                 <div>
                                     <div class="number" id="lbltotalcerrado"></div>
                                     <div class="caption"><div>Solicitudes finalizadas</div></div>
-                                    <div class="caption"><div>0</div></div>
+                                    <div class="caption"><div><%= Solicitud.solucitudesFinalizadas(usuario.getId_U()) %></div></div>
                                 </div>
                             </article>
                         </div>
@@ -57,7 +57,7 @@
                             <article class="statistic-box red">
                                 <div>
                                     <div class="number" id="lbltotalcerrado"></div>
-                                    <div class="caption"><div>Solicitudes vencidas</div></div>
+                                    <div class="caption"><div>Solicitudes no respondidas</div></div>
                                     <div class="caption"><div>0</div></div>
                                 </div>
                             </article>
@@ -108,7 +108,7 @@
 
                                 %>
 
-                                <tr>
+                                <tr> 
                                     
                                     <td><%= solicitud.getTitulo() %></td>
                                     <td><%= Tipo.darTipoSolicitud(solicitud.getTipo())%></td>

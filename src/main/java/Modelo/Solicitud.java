@@ -37,9 +37,9 @@ public class Solicitud {
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.fechaCreacion = Timestamp.valueOf(LocalDateTime.now());
-        this.fechaDeRespuesta = String.valueOf(LocalDate.now().plusDays(15)) ;
+        this.fechaDeRespuesta = String.valueOf(LocalDate.now().plusDays(15));
         this.estado = 1;
-        
+
     }
 
     public String getArchivo() {
@@ -69,7 +69,6 @@ public class Solicitud {
     public void setFechaDeRespuesta(String fechaDeRespuesta) {
         this.fechaDeRespuesta = fechaDeRespuesta;
     }
-
 
     public void setArchivo(String archivo) {
         this.archivo = archivo;
@@ -145,7 +144,7 @@ public class Solicitud {
             ps.setString(4, p.getDescripcion());
             ps.setTimestamp(5, p.getFechaCreacion());
             ps.setTimestamp(6, p.getFechaCierre());
-            ps.setString(7, String.valueOf(p.getFechaDeRespuesta()) );
+            ps.setString(7, String.valueOf(p.getFechaDeRespuesta()));
             ps.setInt(8, p.getEstado());
             ps.setString(9, p.getArchivo());
             ps.executeUpdate();
@@ -191,6 +190,39 @@ public class Solicitud {
             }
         }
         return lista;
+    }
+
+    /**
+     * metodo para dar solicitudes en proceso del usuario
+     *
+     * @param id_U
+     * @return int
+     */
+    public static int solucitudesEnProceso(Usuario s) {
+        int contador = 0;
+        for (Solicitud solicitud : listarSolicitudes()) {
+            // Verificar si la solicitud está en proceso y pertenece al usuario o si el usuario tiene un ID especial (2)
+            if (solicitud.getEstado() == 2 && (s.getId_U() == 2 || s.getId_U() == solicitud.getUsuario())) {
+                contador++;
+            }
+        }
+        return contador;
+    }
+
+    /**
+     * metodo para ver el numero de solicitudes finalizadas
+     *
+     * @param id_U
+     * @return int
+     */
+    public static int solucitudesFinalizadas(int id_U) {
+        List<Solicitud> lista = new LinkedList<>();
+        for (Solicitud solicitud : listarSolicitudes()) {
+            if (solicitud.getUsuario() == id_U && solicitud.getEstado() == 3) {
+                lista.add(solicitud);
+            }
+        }
+        return lista.size();
     }
 
 }
