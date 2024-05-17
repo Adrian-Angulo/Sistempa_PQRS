@@ -3,7 +3,9 @@
 
 <body>
 
-    <% Usuario usuario = (Usuario) request.getSession(false).getAttribute("usuario");%>
+    <% Usuario usuario = (Usuario) request.getSession(false).getAttribute("usuario");
+    
+    %>
     <div class="wrapper">
 
         <!-- menu lateral -->
@@ -15,7 +17,7 @@
             <%@include file="Templates/nav.jsp" %>
             <div class="text-center">
                 <h1>
-                    Dashboar
+                    Panel Usuario
                 </h1>
             </div>
 
@@ -82,7 +84,7 @@
                                             <th>Tipo</th>
                                             <th>Fecha</th>
                                             <th>Estado</th>
-                                            <th>Documento</th>
+                                            
                                             <th>Seguimiento</th>
                                         </tr>
                                     </thead>
@@ -93,11 +95,11 @@
                                             if (lista == null || lista.isEmpty()) { %>
 
                                         <tr>
-                                            <td colspan="6"> NO HAY SOLICITUDES</td>
+                                            <td colspan="4"> NO HAY SOLICITUDES</td>
                                         </tr>
 
                                         <% } else {
-                                                for (Solicitud s : lista) {%>
+                                            for (Solicitud s : lista) {%>
 
                                         <tr>
                                             <td>
@@ -110,57 +112,26 @@
                                                 <%= s.getFechaCreacion()%>
                                             </td>
                                             <td>
+                                                <% System.out.println("en jsp: "+s.getEstado()); %>
                                                 <%=Estado.darEstado(s.getEstado())%>
                                             </td>
+                                         
                                             <td>
-                                                <% if (s.getArchivo() == null
-                                                            || s.getArchivo().isEmpty()) {
-                                                %>
-
-                                                Sin Documentacion
-
-
-                                                <% } else {%>
                                                 <button type="button"
-                                                        class="btn btn-success"
+                                                        class="btn btn-primary"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#Archivo<%= s.getId_Solicitud()%>">
-                                                    <i
-                                                        class="bi bi-file-earmark-pdf-fill"></i>
-                                                </button>
-                                                <% }%>
-
-                                            </td>
-                                            <td>
-                                                <button type="button"
-                                                        class="btn btn-primary">
-                                                    <i
+                                                        data-bs-target="#Ver<%= s.getId_Solicitud()%>">
+                                                        <i
                                                         class="bi bi-eye-fill"></i>
                                                 </button>
 
                                             </td>
                                         </tr>
+                                        <%@include file="Templates/Modal_Seguimiento.jsp" %>
 
-
-                                        <!-- Modal para archivo -->
-                                    <div class="modal modal-xl"
-                                         id="Archivo<%= s.getId_Solicitud()%>"
-                                         tabindex="-1"
-                                         aria-labelledby="exampleModalLabel"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <embed
-                                                    src="<%=s.getArchivo()%>"
-                                                    type="application/pdf"
-                                                    width="100%"
-                                                    height="700px">
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                        <%@include file="Templates/Modal_Archivo.jsp" %>
                                     <% }
-                                            }%>
+                                        }%>
 
 
                                     </tbody>

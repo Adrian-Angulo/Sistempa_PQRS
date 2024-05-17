@@ -57,12 +57,12 @@
                 font-weight: 900;
             }
 
-            .border-left-vencida {
-                border-left: 6px solid rgb(193, 7, 7);
+            .border-left-azul {
+                border-left: 6px solid rgb(8, 216, 25);
             }
 
             .text-3 {
-                color: rgb(193, 7, 7);
+                color: rgb(8, 216, 25);
                 font-weight: 900;
             }
         </style>

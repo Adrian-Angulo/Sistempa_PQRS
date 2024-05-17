@@ -164,13 +164,40 @@ public class Solicitud {
         return false;
     }
 
+    public static boolean actualizarSolicitud(int estado, int solicitud) {
+        Conexion con = new Conexion();
+        PreparedStatement ps = null;
+        String sql = "UPDATE solicitud SET estado = ? WHERE ID_Solicitud = ?";
+        try (Connection conexion = con.get_connection()) {
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, estado);
+            ps.setInt(2, solicitud);
+
+            ps.executeUpdate();
+            System.out.println("Se actualizo el estado de la solicitud.");
+            return true;
+        } catch (SQLException e) {
+            System.out.println("SQL error al actualizar el estado de la solicitud " + e.getMessage());
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    System.out.println("SQL error al cerrar PreparedStatement: " + e.getMessage());
+                }
+            }
+        }
+        return false;
+    }
+
     public static List<Solicitud> listarSolicitudes() {
         List<Solicitud> listaPQRS = new LinkedList<>();
         Conexion db_connect = new Conexion();
         try (Connection conexion = db_connect.get_connection(); PreparedStatement ps = conexion.prepareStatement("SELECT * FROM solicitud"); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Solicitud solicitud = new Solicitud(rs.getString("titulo"), rs.getInt("usuario"), rs.getInt("tipo"), rs.getString("descripcion"));
-                solicitud.setId_pqrs(rs.getInt("ID_Solicitud"));
+                solicitud.setId_Solicitud(rs.getInt("ID_Solicitud"));
+                solicitud.setEstado(rs.getInt("estado"));
                 solicitud.setFechaCreacion(rs.getTimestamp("fechaCreacion"));
                 solicitud.setFechaDeRespuesta(rs.getString("fechaRespuesta"));
                 solicitud.setArchivo(rs.getString("documento"));
@@ -215,14 +242,15 @@ public class Solicitud {
      * @param id_U
      * @return int
      */
-    public static int solucitudesFinalizadas(int id_U) {
-        List<Solicitud> lista = new LinkedList<>();
+    public static int solucitudesFinalizadas(Usuario s) {
+        int contador = 0;
         for (Solicitud solicitud : listarSolicitudes()) {
-            if (solicitud.getUsuario() == id_U && solicitud.getEstado() == 3) {
-                lista.add(solicitud);
+            // Verificar si la solicitud está en proceso y pertenece al usuario o si el usuario tiene un ID especial (2)
+            if (solicitud.getEstado() == 3 && (s.getId_U() == 2 || s.getId_U() == solicitud.getUsuario())) {
+                contador++;
             }
         }
-        return lista.size();
+        return contador;
     }
 
 }

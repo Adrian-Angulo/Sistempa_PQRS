@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class Estado {
 
-    private int ID_Estado;
+    private int id_Estado;
     private String nombre;
 
     public Estado(String nombre) {
@@ -28,11 +28,11 @@ public class Estado {
     }
 
     public int getId_estado() {
-        return ID_Estado;
+        return id_Estado;
     }
 
-    public void setId_estado(int ID_Estado) {
-        this.ID_Estado = ID_Estado;
+    public void setId_estado(int id_Estado) {
+        this.id_Estado = id_Estado;
     }
 
     public String getNombre_estado() {
@@ -49,9 +49,10 @@ public class Estado {
         try (Connection conexion = db_connect.get_connection(); PreparedStatement ps = conexion.prepareStatement("SELECT * FROM estado"); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Estado estado = new Estado(rs.getString("nombre"));
-                estado.setId_estado(rs.getInt("ID_Estado"));
+                estado.setId_estado(rs.getInt("id_Estado"));
 
                 listaEstados.add(estado);
+                System.out.println("se cargo un estado");
             }
         } catch (SQLException ex) {
             System.out.println("No se pudo traer la información: " + ex.getMessage());
@@ -60,9 +61,10 @@ public class Estado {
     }
     
     
-    public static String darEstado(int ID_Estado){
+    public static String darEstado(int id_Estado){
         for (Estado estado : listarEstado()) {
-            if(estado.getId_estado() == ID_Estado){
+             System.out.println(estado.getId_estado());
+            if(estado.getId_estado() == id_Estado){
                 return estado.getNombre_estado();
             }
         }

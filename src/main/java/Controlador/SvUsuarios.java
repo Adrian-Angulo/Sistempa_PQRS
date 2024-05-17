@@ -24,7 +24,12 @@ public class SvUsuarios extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+// Obtener el objeto HttpSession desde el request
+        HttpSession session = request.getSession();
 
+// Invalidar la sesión
+        session.invalidate();
+         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     @Override
@@ -96,7 +101,6 @@ public class SvUsuarios extends HttpServlet {
     private void setAlertAndRedirect(String alertType, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("alerta", alertType);
         request.getRequestDispatcher("index.jsp").forward(request, response);
-        
 
     }
 }

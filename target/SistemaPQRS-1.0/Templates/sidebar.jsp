@@ -14,7 +14,7 @@
         <li class="sidebar-item">
             <a href="PanelUsuario.jsp" class="sidebar-link">
                 <i class="bi bi-card-heading"></i>
-                <span>Dashboar</span>
+                <span>Inicio</span>
             </a>
         </li>
         <li class="sidebar-item">
@@ -27,7 +27,7 @@
 
     </ul>
     <div class="sidebar-footer">
-        <a href="#" class="sidebar-link">
+        <a href="SvUsuarios" class="sidebar-link">
             <i class="lni lni-exit"></i>
             <span>Logout</span>
         </a>
@@ -49,14 +49,14 @@
     </div>
     <ul class="sidebar-nav">
         <li class="sidebar-item">
-            <a href="PanelUsuario.jsp" class="sidebar-link">
+            <a href="PanelAdministrador.jsp" class="sidebar-link">
                 <i class="bi bi-card-heading"></i>
-                <span>Dashboar</span>
+                <span>Inicio</span>
             </a>
         </li>
     </ul>
     <div class="sidebar-footer">
-        <a href="#" class="sidebar-link">
+        <a href="SvUsuarios" class="sidebar-link">
             <i class="lni lni-exit"></i>
             <span>Logout</span>
         </a>

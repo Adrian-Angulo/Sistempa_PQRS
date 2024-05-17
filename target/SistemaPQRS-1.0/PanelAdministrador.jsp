@@ -16,7 +16,7 @@
             <%@include file="Templates/nav.jsp" %>
             <div class="text-center">
                 <h1>
-                    Dashboar
+                   Panel Administrador
                 </h1>
             </div>
 
@@ -32,7 +32,7 @@
                                         class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Solicitudes</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        <%= Solicitud.solucitudesDeUsuario(usuario.getId_U()).size()%> </div>
+                                        <%= Solicitud.listarSolicitudes().size() %> </div>
                                 </div>
 
                             </div>
@@ -55,13 +55,29 @@
                         </div>
                     </div>
                 </div>
+                <div class="info col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-azul shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div
+                                        class="text-xs font-weight-bold text-3 text-uppercase mb-1">
+                                        Realizadas</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <%= Solicitud.solucitudesFinalizadas(usuario)%> </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>
 
 
 
-            <div class="row">
+              <div class="row">
                 <div class="form-div">
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
@@ -82,9 +98,9 @@
                                             <th>Asunto</th>
                                             <th>Usuario</th>
                                             <th>Tipo</th>
-                                            
+
                                             <th>Estado</th>
-                                            <th>Documento</th>
+
                                             <th>Seguimiento</th>
                                         </tr>
                                     </thead>
@@ -106,37 +122,23 @@
                                                 <%= s.getTitulo()%>
                                             </td>
                                             <td>
-                                                <%= Usuario.darNombreUsuario(s.getUsuario()) %>
+                                                <%= Usuario.darNombreUsuario(s.getUsuario())%>
                                             </td>
                                             <td>
                                                 <%=Tipo.darTipoSolicitud(s.getTipo())%>
                                             </td>
-                                            
+
                                             <td>
                                                 <%=Estado.darEstado(s.getEstado())%>
                                             </td>
+
+
+
                                             <td>
-                                                <% if (s.getArchivo() == null
-                                                            || s.getArchivo().isEmpty()) {
-                                                %>
-
-                                                Sin Documentacion
-
-
-                                                <% } else {%>
                                                 <button type="button"
-                                                        class="btn btn-success"
+                                                        class="btn btn-primary"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#Archivo<%= s.getId_Solicitud()%>">
-                                                    <i
-                                                        class="bi bi-file-earmark-pdf-fill"></i>
-                                                </button>
-                                                <% }%>
-
-                                            </td>
-                                            <td>
-                                                <button type="button"
-                                                        class="btn btn-primary">
+                                                        data-bs-target="#Ver<%= s.getId_Solicitud()%>">
                                                     <i
                                                         class="bi bi-eye-fill"></i>
                                                 </button>
@@ -145,24 +147,13 @@
                                         </tr>
 
 
-                                        <!-- Modal para archivo -->
-                                    <div class="modal modal-xl"
-                                         id="Archivo<%= s.getId_Solicitud()%>"
-                                         tabindex="-1"
-                                         aria-labelledby="exampleModalLabel"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <embed
-                                                    src="<%=s.getArchivo()%>"
-                                                    type="application/pdf"
-                                                    width="100%"
-                                                    height="700px">
-                                            </div>
-                                        </div>
-                                    </div>
+                                        <%@include file="Templates/Modal_Seguimiento.jsp" %>
 
-                                    <% }
+
+                                        <%@include file="Templates/Modal_Archivo.jsp" %>
+
+
+                                        <% }
                                         }%>
 
 
@@ -174,6 +165,7 @@
                     </div>
                 </div>
             </div>
+
 
 
         </div>

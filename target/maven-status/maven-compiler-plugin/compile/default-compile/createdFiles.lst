@@ -1,9 +1,11 @@
 Modelo\Solicitud.class
 Modelo\Tipo.class
 Controlador\SvUsuarios.class
+Modelo\Comentario.class
 Modelo\Usuario.class
 Controlador\SvSolicitudes.class
 Modelo\Conexion.class
 Modelo\Rol.class
 Modelo\Estado.class
 Modelo\prueba.class
+Controlador\SvComentario.class
