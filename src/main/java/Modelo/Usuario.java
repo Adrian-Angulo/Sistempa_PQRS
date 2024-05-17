@@ -194,7 +194,7 @@ public class Usuario {
     public static String darNombreUsuario(int id_U) {
         for (Usuario user : listarUsuarios()) {
             if (user.getId_U() == id_U) {
-                return user.getNombre();
+                return user.getNombre() +" "+ user.getApellido();
             }
         }
         return null;

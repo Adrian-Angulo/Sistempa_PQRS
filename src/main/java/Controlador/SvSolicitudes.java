@@ -38,9 +38,9 @@ public class SvSolicitudes extends HttpServlet {
             throws ServletException, IOException {
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-        String titulo = request.getParameter("Titulo");
+        String titulo = request.getParameter("Asunto");
         int tipo = Integer.parseInt(request.getParameter("tipo"));
-        String descripcion = request.getParameter("descripcion");
+        String descripcion = request.getParameter("Descripcion");
         Part filePart = request.getPart("documento");
 
         System.out.println(titulo + "," + tipo + "," + descripcion + "," + filePart);
@@ -61,10 +61,10 @@ public class SvSolicitudes extends HttpServlet {
 
         // Registrar la solicitud en la base de datos y manejar la respuesta
         if (Solicitud.registrarSolicitud(solicitud)) {
-            setAlertAndRedirect("SolicitudRegistrada", request, response);
+            setAlertAndRedirect("SolicitudEnviada", request, response);
         } else {
             // Manejar el caso en que la solicitud no se pueda registrar
-            setAlertAndRedirect("ErrorAlRegistrar", request, response);
+            setAlertAndRedirect("SolicitudNoEnviada", request, response);
         }
 
     }
@@ -92,6 +92,6 @@ public class SvSolicitudes extends HttpServlet {
 
     private void setAlertAndRedirect(String alertType, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("alerta", alertType);
-        request.getRequestDispatcher("solicitud.jsp").forward(request, response);
+        request.getRequestDispatcher("NuevaSolicitud.jsp").forward(request, response);
     }
 }
