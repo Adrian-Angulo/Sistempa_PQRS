@@ -39,61 +39,64 @@ public class SvUsuarios extends HttpServlet {
         String apellido = request.getParameter("apellido");
         String identificacion = request.getParameter("identificacion");
         String correo = request.getParameter("correo");
-        String contrasena =  Usuario.hashPass(request.getParameter("contrasena"));
-        
+        String contrasena = Usuario.hashPass(request.getParameter("contrasena"));
+
         Usuario usuario;
 
         // evular la accion
         switch (accion) {
             case "Agregar":
                 //se crea un nuevo usuario
-                 usuario = new Usuario(identificacion, nombre, apellido, correo, contrasena);
+                usuario = new Usuario(identificacion, nombre, apellido, correo, contrasena);
 
                 //verificar si el usuario ya se encuetra registrado
                 if (!Usuario.verificarExistencia(usuario)) {
-                    
+
                     // registrar el usuario en la base de datos
-                    String registro = (Usuario.crearUsuario(usuario))? "RegistroExitoso": "RegistroNoExitoso";
-                    
+                    String registro = (Usuario.crearUsuario(usuario)) ? "RegistroExitoso" : "RegistroNoExitoso";
+
                     //enviar mensaje de alerta
                     setAlertAndRedirect(registro, request, response);
                 } else {
-                    setAlertAndRedirect("UsuarioYaRegistrado", request, response);
+                    setAlertAndRedirect("UsuarioRegistrado", request, response);
                 }
 
                 break;
-                
+
             case "IniciarSesion":
-                
-                 usuario =  Usuario.validarUsuario(correo, contrasena);
+
+                usuario = Usuario.validarUsuario(correo, contrasena);
                 //validar el inicio de session
-                if(usuario!=null){
-                   
+                if (usuario != null) {
+
                     //creamos una session para el usuario en el proyecto
                     HttpSession session = request.getSession();
                     session.setAttribute("usuario", usuario);
-                    
+
                     //verificar el rol del usuario
-                    if(usuario.getRol() == 1){
-                        response.sendRedirect("HomeUsuario.jsp");
-                    }else{
-                        response.sendRedirect("HomeAdministrador.jsp");
+                    if (usuario.getRol() == 1) {
+                        response.sendRedirect("PanelUsuario.jsp");
+                    } else {
+                        response.sendRedirect("PanelAdministrador.jsp");
                     }
-                    
+
+                } else {
+                    setAlertAndRedirect("UsuarioNoAutenticado", request, response);
                 }
-                
-                
+
                 break;
-                
+
             default:
                 throw new AssertionError();
         }
 
     }
-    
+
     //metodo para envio de alerta en caso de error
     private void setAlertAndRedirect(String alertType, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("alerta", alertType);
         request.getRequestDispatcher("index.jsp").forward(request, response);
+        
+
     }
 }

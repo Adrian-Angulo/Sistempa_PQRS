@@ -1,204 +1,148 @@
 <%-- 
     Document   : index
-    Created on : 3/05/2024, 12:20:11 a. m.
+    Created on : 16/05/2024, 9:10:17 p. m.
     Author     : ADRIAN CASTILLO
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<%@page import="Modelo.Rol"%>
 <!DOCTYPE html>
-
-<%
-
-%>
-
+<!DOCTYPE html>
 <html lang="en">
 
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bootstrap demo</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="stylesheet" href="estilos/estilos.css">
-        <!-- iconos boostrap 5 -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="css/estilos.css">
+        <title>Ludiflex | Login & Registration</title>
         <style>
-            .alerta{
-                position: absolute;
-                height: 50px;
-                width: 400px;
-                top: 150px;
-                right: 150px;
-                display: flex;
-                justify-content: space-between;
-                align-content: center;
+            .nav-button .btn{
+                width: 150px;
+                height: 40px;
+                font-weight: 500;
+                background: rgba(255, 255, 255, 0.4);
+                border: none;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: .3s ease;
             }
         </style>
+        <!-- boostrap estilos-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
 
     <body>
-        <!-- navbar -->
-        <div class="navbar">
-            <a href="inde.html" class="Logo">Atencion al usuario</a>
-            <a class="btn-navbar" id="btn-navbar" type="button">Registrarse</a>
-        </div>
-        <% 
-        String alerta = (String) request.getAttribute("alerta");
-        
-        %>
-
-        <%@include file="Alertas/alertas.jsp" %>
-        
-        <section class="container-index" >
-            <div class="row">
-
-                <!-- informacion de la pagina -->
-                <div class="col row info">
-                    <div class="text-center">
-
-                        <h1 class="col titulo-info">Sistema de Atencion al usuario</h1>
-                        <p class="col">
-                            ¡Bienvenido a nuestro servicio de atención al cliente en línea! Estamos comprometidos en ofrecer una
-                            experiencia excepcional y nos alegra que estés aquí. Regístrate para acceder a tu cuenta personal donde
-                            podrás realizar peticiones, reclamos y sugerencias. Tu voz es importante para nosotros y estamos aquí para
-                            escucharte. ¡Comienza ahora y juntos mejoraremos cada día!
-                        </p>
-                    </div>
-                    <div>
-
-                    </div>
-                </div>
-                
-                
-                
-                
-
-                <!-- Registrar nuevo usuario -->
-                <div id="formResgistro" style="display: none;" class="col registro">
-                    <label class="titulo" for="">
-                        Registro
-                    </label>
-
-                    <!-- Formulario de registro -->
-                    <form class="row g-3 needs-validation form" method="post"  action="SvUsuarios?accion=Agregar" novalidate>
-                        <!-- Nombre -->
-                        <div class="col-md-6">
-
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
-                            <div class="invalid-feedback">
-                                Por favor ingresa tu nombre.
-                            </div>
-                        </div>
-
-                        <!-- Apellido -->
-                        <div class="col-md-6">
-                            <label for="apellido" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" name="apellido" id="apellido" required>
-                            <div class="invalid-feedback">
-                                Por favor ingresa tu apellido.
-                            </div>
-                        </div>
-
-                        <!-- Identificacion -->
-                        <div class="col-md-12">
-                            <label for="identificacion" class="form-label">Identificacion</label>
-                            <input type="text" class="form-control" name="identificacion" id="identificacion" required>
-                            <div class="invalid-feedback">
-                                Por favor ingresa tu número de identificación.
-                            </div>
-                        </div>
-
-                        <!-- Correo -->
-                        <div class="col-md-12">
-                            <label for="correo" class="form-label">Correo</label>
-                            <input type="email" class="form-control" name="correo" id="correo" required>
-                            <div class="invalid-feedback">
-                                Por favor ingresa una dirección de correo válida.
-                            </div>
-                        </div>
-
-                        <!-- Contraseña -->
-                        <div class="col-md-12">
-                            <label for="contrasena" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control"name="contrasena" id="contrasena" required>
-                            <div class="invalid-feedback">
-                                Por favor ingresa una contraseña.
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 text-center">
-                            <button class="btn-navbar" type="submit">Registrarse</button>
-                        </div>
-                    </form>
+        <div class="wrapper">
+            <nav class="nav">
+                <div class="nav-logo">
+                    <p>Sistema PQRS</p>
                 </div>
 
+                <div class="nav-button">
+                    <button class="btn white-btn" id="loginBtn" onclick="login()"> Iniciar Sesion </button>
+                    <button class="btn" id="registerBtn" onclick="register()">Registrarse</button>
+                </div>
+                <div class="nav-menu-btn">
+                    <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+                </div>
+            </nav>
+
+
+            <!-- menejo de alertar -->
+            <%  String alerta = (String) request.getAttribute("alerta");
+                System.out.println(alerta);%>
+            <%@include file="Alertas/alertaDeIndex.jsp" %>
 
 
 
 
+            <!----------------------------- Form box ----------------------------------->
+            <div class="form-box">
 
+                <!------------------- login form -------------------------->
 
-                <!-- Logear usuario -->
-                <div  id="formInicioSession" class="col registro">
-                    <label class="titulo" for="">
-                        Iniciar Session
-                    </label>
+                <div class="login-container" id="login">
+                    <div class="top">
+                        <span>No tienes cuenta? <a href="#" onclick="register()">Registrate</a></span>
+                        <header>Iniciar Sesion</header>
+                    </div>
+                    <form action="SvUsuarios?accion=IniciarSesion" id="registro" method="post">
+                        <div class="input-box">
+                            <input type="text" class="input-field" name="correo" placeholder="Email">
+                            <i class="bx bx-user"></i>
+                        </div>
+                        <div class="input-box">
+                            <input type="password" class="input-field" name="contrasena" placeholder="*********">
+                            <i class="bx bx-lock-alt"></i>
+                        </div>
+                        <div class="input-box">
+                            <input type="submit" class="submit" value="Iniciar Sesion">
+                        </div>
+                        <div class="two-col">
 
-
-
-                    <!-- Formulario de iniciar session -->
-                    <form class="row g-3 needs-validation form" method="post" action="SvUsuarios?accion=IniciarSesion" novalidate>
-
-
-
-
-                        <!-- Correo -->
-                        <div class="col-md-12" >
-                            <label for="correo" class="form-label" >Correo</label>
-                            <input type="email" class="form-control" name="correo" id="correo" required>
-                            <div class="invalid-feedback">
-                                Por favor ingresa una dirección de correo válida.
+                            <div class="two">
+                                <label><a href="#">Se te olvido la contraseña?</a></label>
                             </div>
                         </div>
+                    </form>
 
-                        <!-- Contraseña -->
-                        <div class="col-md-12">
-                            <label for="contrasena" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" name="contrasena" id="contrasena" required>
-                            <div class="invalid-feedback">
-                                Por favor ingresa una contraseña.
+                </div>
+
+                <!------------------- registration form -------------------------->
+                <div class="register-container" id="register">
+                    <div class="top">
+                        <span>Have an account? <a href="#" onclick="login()">Iniciar Sesion</a></span>
+                        <header>Registro</header>
+                    </div>
+                    <form action="SvUsuarios?accion=Agregar"  method="post">
+                        <div class="two-forms">
+                            <div class="input-box">
+                                <input type="text" class="input-field" name="nombre" placeholder="Nombre" required>
+                                <i class="bx bx-user"></i>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" class="input-field" name="apellido" placeholder="Apellido" required>
+                                <i class="bx bx-user"></i>
                             </div>
                         </div>
-
-                        <div class="col-md-12 text-center">
-                            <button class="btn-navbar" type="submit">iniciar seccion</button>
+                        <div class="input-box">
+                            <input type="number" class="input-field" name="identificacion" placeholder="identificación"
+                                   required pattern="\d{6,10}" title="La cédula debe tener entre 6 y 10 dígitos.">
+                            <i class="bx bx-envelope"></i>
                         </div>
+                        <div class="input-box">
+                            <input type="text" class="input-field" name="correo" placeholder="Email" required>
+                            <i class="bx bx-envelope"></i>
+                        </div>
+                        <div class="input-box">
+                            <input type="password" class="input-field" name="contrasena" placeholder="Password" required>
+                            <i class="bx bx-lock-alt"></i>
+                        </div>
+                        <div class="input-box">
+                            <input type="submit" class="submit" value="Register">
+                        </div>
+                        <div class="two-col">
+                            <div class="one">
+                                <input type="checkbox" id="register-check">
+                                <label for="register-check"> Remember Me</label>
+                            </div>
 
-
-
+                        </div>
 
                     </form>
+
                 </div>
             </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="scripts/index.js">
+
+        </script>
 
 
-        </section>
 
-        <footer>
-            <ul class="footer-contacto">
-                <li>Contacto</li>
-                <li>Adrian Camilo Castillo Angulo</li>
-                <li>Accastillo222@umariana.edu.co</li>
-            </ul>
-        </footer>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
-        <script src="JS/js.js"></script>
     </body>
 
 </html>
