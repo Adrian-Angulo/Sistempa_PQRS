@@ -149,11 +149,7 @@
                                                 </button>
 
 
-                                                <!-- boton para bloquear usuario -->
-                                                <button type="button"  class="btn btn-danger btnform" data-bs-toggle="modal"  data-bs-target="#Bloquear<%= usu.getId_U()%>">
-                                                    <i class="bi bi-lock-fill"></i>
-                                                </button>
-
+                                                
                                             </td>
 
 

@@ -285,6 +285,14 @@ public class Usuario {
        return cantidad;
    }
    
+   public static Usuario darUsuarioPorId(int id){
+       for (Usuario s : listarUsuarios()) {
+           if(s.getId_U()== id){
+               return s;
+           }
+       }
+       return null;
+   }
 
 
 }

@@ -48,8 +48,10 @@
                         </div>
 
                         <br>
+                        
+                        <!-- boton para ver las solicitudes -->
                         <div>
-                            <button id="verSolicitudes" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#VerSolcitudes<%=usu.getId_U()%>"> ver solicitudes</button>
+                            <button id="verSolicitudes"  data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#VerSolcitudes<%=usu.getId_U()%>"> ver solicitudes</button>
                         </div>
 
 

@@ -118,4 +118,8 @@
             .btnform:hover{
                 background-color: rgba(38, 59, 83, 0.122);
             }
+            #verSolicitudes{
+                border:none;
+                background: transparent;
+            }
         </style>
