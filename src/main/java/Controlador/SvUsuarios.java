@@ -91,6 +91,14 @@ public class SvUsuarios extends HttpServlet {
                 }
 
                 break;
+                
+            case "Bloquear":
+                int id = Integer.parseInt(request.getParameter("id")) ;
+                
+                
+                
+                
+                break;
 
             default:
                 throw new AssertionError();

@@ -60,7 +60,7 @@
 
             </div>
 
-            
+
 
             <div class="row">
                 <div class="form-div">
@@ -117,13 +117,17 @@
                                             </td>
 
                                             <td>
-                                                <button type="button"
-                                                        class="btn btn-primary"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#Ver<%= s.getId_Solicitud()%>">
-                                                    <i
-                                                        class="bi bi-eye-fill"></i>
-                                                </button>
+                                                <div class="d-inline-flex p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Chat" >
+
+                                                    <button type="button"
+                                                            class="btn btn-primary"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#Ver<%= s.getId_Solicitud()%>">
+                                                        <i
+                                                            class="bi bi-eye-fill"></i>
+                                                    </button>
+                                                </div>
+
 
                                             </td>
                                         </tr>
@@ -131,7 +135,7 @@
 
                                         <%@include file="Templates/Modal_Archivo.jsp" %>
                                         <% }
-                                        }%>
+                                            }%>
 
 
                                     </tbody>

@@ -1,5 +1,6 @@
 
 
+<%@page import="Modelo.Comentario"%>
 <%@page import="Modelo.Usuario"%>
 <%@page import="Modelo.Estado"%>
 <%@page import="java.util.List"%>
@@ -14,11 +15,11 @@
             <div class="modal-header" style=" background-color: rgb(14, 34, 56); color: white;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Infomacion de Usuario</h1>
                 <a style="background-color: white"
-                        type="button"
-                        class="btn-close"
-                        href="PanelAdministrarUsuarios.jsp"
-                        aria-label="Close"
-                        ></a>
+                   type="button"
+                   class="btn-close"
+                   href="PanelAdministrarUsuarios.jsp"
+                   aria-label="Close"
+                   ></a>
             </div>
             <div class="modal-body" style="background-color: rgb(247, 251, 255);">
 
@@ -61,9 +62,13 @@
 
                     <div class="col">
                         <!-- boton para bloquear usuario -->
-                        <button type="button"  class="btn btn-danger btnform" data-bs-toggle="modal"   data-bs-target="#Historial<%=s.getId_Solicitud()%>">
-                            <i class="bi bi-arrow-up-right-square-fill"></i>
-                        </button>
+                        <div class="d-inline-flex p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Chats" >
+
+                            <button type="button"  class="btn btn-danger btnform" data-bs-toggle="modal"   data-bs-target="#Historial<%=s.getId_Solicitud()%>">
+                                <i class="bi bi-arrow-up-right-square-fill"></i>
+                            </button>
+                        </div>
+
                     </div>
 
 
@@ -113,18 +118,16 @@
             <div class="modal-header" style=" background-color: rgb(14, 34, 56); color: white;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Infomacion de Usuario</h1>
                 <a style="background-color: white"
-                        type="button"
-                        class="btn-close"
-                        href="PanelAdministrarUsuarios.jsp"
-                        aria-label="Close"
-                        ></a>
+                   type="button"
+                   class="btn-close"
+                   href="PanelAdministrarUsuarios.jsp"
+                   aria-label="Close"
+                   ></a>
             </div>
             <div class="modal-body" style="background-color: rgb(247, 251, 255);">
                 <div class="d-flex mb-1">
                     <div class="me-auto p-2">
                         <div class=" flex-grow-1">
-
-
                             <div>
                                 <i class="bi bi-person-circle" style="font-size: 40px;"></i>
                                 <label for="" style="font-size: larger; font-weight: bold;"> <%= user.getNombre() + " " + user.getApellido()%> </label>
@@ -135,15 +138,111 @@
                         </div>
                     </div>
                     <div class="p-2 d-flex align-items-center">
-                        <button type="button" class="btn btn-danger btnform"> </button>
+                        <!-- Mostrar Documento -->
+
+                        <div type="button" class="btn btn-danger btnform >
+                             <% if (so.getArchivo() == null
+                                         || so.getArchivo().isEmpty()) {
+                             %>
+
+                             <button type="button"
+                             class="btn btn-success">
+                            Sin Documentacion
+                            </button>
+
+
+                            <% } else {%>
+                            <button type="button"
+                                    class="btn btn-success"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#Archivo<%= so.getId_Solicitud()%>">
+                                <i
+                                    class="bi bi-file-earmark-pdf-fill"></i> Documento
+                            </button>
+                            <% }%>
+
+
+
+                        </div>
+
                     </div>
                 </div>
 
+                <!-- area de comentario -->
 
                 <div class="row" style="margin: 5px 10px;">
                     <textarea name="" id="" disabled style="border-radius: 10px;"> <%= so.getDescripcion()%>
                     </textarea>
                 </div>
+
+
+                <%
+                    List<Comentario> listaC = Comentario.comentariosDeSolicitud(so.getId_Solicitud());
+
+                    if (listaC != null || !listaC.isEmpty()) {
+
+                        for (Comentario c : listaC) {
+
+                %>
+
+
+                <div class="row" style="margin: 5px 10px;">
+                    <label for="validationTextarea" class="form-label"> <%= Usuario.darNombreUsuario(c.getUsuario())%></label>
+                    <textarea class="form-control" id="validationTextarea" name="Descripcion"  disabled style="border-radius: 10px;" ><%= c.getComentario()%></textarea>
+
+                </div>
+
+
+
+                <%
+                        }
+                    }
+                %>
+
+
+                <!-- Enviar nuevo comentario -->
+                <form action="SvComentario"  method="post" enctype="multipart/form-data">
+
+                    <input type="hidden" id="campoOculto" name="solicitud" value="<%= so.getId_Solicitud()%>">
+                    <input type="hidden" id="campoOculto" name="usuario" value="<%= user.getId_U()%>">
+
+
+                    <!-- text area de respuesta -->
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-between">
+                            <label for="validationTextarea" id="comentario" class="form-label">Comentario</label>
+
+                        </div>
+                        <textarea class="form-control" id="comentario" name="comentario" placeholder="Escribe una respuesta" required></textarea>
+                        <div class="invalid-feedback">
+                            Por favor escriba algo
+                        </div>
+                        <div class="d-flex justify-content-start">
+                            <div style="margin-right: 10px">
+                                <label>Solicitud Terminada? </label>
+                            </div>
+
+                            <div class="form-check" style="margin-right: 10px">
+                                <input class="form-check-input" type="radio" value="3" name="terminado" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Si
+                                </label>
+                            </div>
+                            <div class="form-check" style="margin-right: 10px">
+                                <input class="form-check-input" type="radio" value="2" name="terminado" id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-12 text-center" style="margin: 10px">
+
+
+                    </div>
 
 
 
@@ -157,10 +256,35 @@
                    >
                     Cerrar
                 </a>
-
+                <button  type="submit" class="btn btn-secondary">Comentar</button>
             </div>
+            </form>
+
         </div>
 
+    </div>
+</div>
+
+<!-- Modal para archivo -->
+<div class="modal modal-xl"
+     id="Archivo<%= so.getId_Solicitud()%>"
+     tabindex="-1"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn" data-bs-toggle="modal"
+                        data-bs-target="#Historial<%=so.getId_Solicitud()%>"> <i class="bi bi-arrow-left"></i></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <embed
+                src="<%=so.getArchivo()%>"
+                type="application/pdf"
+                width="100%"
+                height="700px">
+        </div>
     </div>
 </div>
 

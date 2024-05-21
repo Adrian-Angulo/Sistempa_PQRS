@@ -102,13 +102,13 @@
 
             }
 
-            #fila {
+            tr {
                 cursor: pointer;
-                justify-content: space-between;
+                
             }
             
 
-            #fila :hover {
+            tr :hover {
                 background-color: rgba(38, 59, 83, 0.122);
             }
             .btnform{
@@ -117,6 +117,10 @@
             }
             .btnform:hover{
                 background-color: rgba(38, 59, 83, 0.122);
+            }
+            .estadoEnProceso{
+                background-color: yellow;
+                border-radius: 20px;
             }
             #verSolicitudes{
                 border:none;

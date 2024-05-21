@@ -264,5 +264,8 @@ public class Solicitud {
         }
         return lista;
     }
+    public static double estadistica(Usuario s){
+        return (solucitudesFinalizadas(s)*100) / listarSolicitudes().size();
+    }
 
 }

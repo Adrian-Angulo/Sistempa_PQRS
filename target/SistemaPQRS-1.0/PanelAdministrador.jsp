@@ -64,9 +64,13 @@
                                 <div class="col mr-2">
                                     <div
                                         class="text-xs font-weight-bold text-3 text-uppercase mb-1">
-                                        Realizadas</div>
+                                        Terminadas</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                                         <%= Solicitud.solucitudesFinalizadas(usuario)%> </div>
+                                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0"
+                                         aria-valuemax="100">
+                                        <div class="progress-bar" style="width: <%= Solicitud.estadistica(usuario) %>%"></div>
+                                    </div>
                                 </div>
 
                             </div>
@@ -103,7 +107,7 @@
 
                                             <th>Estado</th>
 
-                                            <th>Seguimiento</th>
+                                            <th>Accion</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -119,7 +123,7 @@
                                         <% } else {
                                             for (Solicitud s : lista) {%>
 
-                                        <tr>
+                                        <tr >
                                             <td>
                                                 <%= s.getTitulo()%>
                                             </td>
@@ -137,21 +141,21 @@
 
 
                                             <td>
-                                                <button type="button"
-                                                        class="btn btn-primary"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#Ver<%= s.getId_Solicitud()%>">
-                                                    <i class="bi bi-chat-left-text-fill"></i>
-                                                </button>
+                                                <div class="d-inline-flex p-0" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Chat con usuario" >
+
+                                                    <button type="button"
+                                                            class="btn btn-primary btnform"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#Ver<%= s.getId_Solicitud()%>">
+                                                        <i class="bi bi-chat-left-text-fill"></i>
+                                                    </button>
+                                                </div>
 
                                             </td>
                                         </tr>
 
 
-                                        <%@include file="Templates/Modal_Seguimiento.jsp" %>
 
-
-                                        <%@include file="Templates/Modal_Archivo.jsp" %>
 
 
                                         <% }
@@ -166,6 +170,20 @@
                     </div>
                 </div>
             </div>
+
+            <%
+                for (Solicitud s : lista) {
+
+            %>
+
+            <%@include file="Templates/Modal_Seguimiento.jsp" %>
+
+
+            <%@include file="Templates/Modal_Archivo.jsp" %>
+
+            <%                         }
+
+            %>                           
 
 
 

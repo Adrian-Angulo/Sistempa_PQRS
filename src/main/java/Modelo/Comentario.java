@@ -21,6 +21,7 @@ public class Comentario {
     private int solicitud;
     private int usuario;
     private String comentario;
+    private static boolean desabilitar;
 
     public Comentario() {
     }
@@ -63,6 +64,15 @@ public class Comentario {
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
+
+    public static boolean isDesabilitar() {
+        return desabilitar;
+    }
+
+    public static void setDesabilitar(boolean desabilitar) {
+        Comentario.desabilitar = desabilitar;
+    }
+    
     
     public static boolean registrarComentario(Comentario c) {
         Conexion con = new Conexion();
@@ -118,4 +128,5 @@ public class Comentario {
         return lista;
     }
     
+       
 }

@@ -7,72 +7,73 @@
      tabindex="-1"
      aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog" >
+    <div class="modal-dialog modal-lg">
+
+        <%
+            Usuario userS = Usuario.darUsuarioPorId(s.getUsuario());
+        %>
         <div class="modal-content">
-
-
-
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel"> <%= s.getTitulo()%></h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header" style=" background-color: rgb(14, 34, 56); color: white;">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Infomacion de Usuario</h1>
+                <a style="background-color: white"
+                   type="button"
+                   class="btn-close"
+                   data-bs-dismiss="modal"
+                   aria-label="Close"
+                   ></a>
             </div>
+            <div class="modal-body" style="background-color: rgb(247, 251, 255);">
+                <div class="d-flex mb-1">
+                    <div class="me-auto p-2">
+                        <div class=" flex-grow-1">
+                            <div>
+                                <i class="bi bi-person-circle" style="font-size: 40px;"></i>
+                                <label for="" style="font-size: larger; font-weight: bold;"> <%= userS.getNombre() + " " + userS.getApellido()%> </label>
+                                <span
+                                    style="font-size: 12px; color: rgb(192, 193, 194);">(<%= userS.getCorreo()%>)</span>
+                                <span style="font-size: 12px; color: rgb(192, 193, 194);"> <%= s.getFechaCreacion()%> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-2 d-flex align-items-center">
+                        <!-- Mostrar Documento -->
+
+                        <div type="button" class="btn btn-danger btnform >
+                             <% if (s.getArchivo() == null
+                                         || s.getArchivo().isEmpty()) {
+                             %>
+
+                             <button type="button"
+                             class="btn btn-success">
+                            Sin Documentacion
+                            </button>
 
 
-            <div class="modal-body row">
+                            <% } else {%>
+                            <button type="button"
+                                    class="btn btn-success"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#Archivo<%= s.getId_Solicitud()%>">
+                                <i
+                                    class="bi bi-file-earmark-pdf-fill"></i> Documento
+                            </button>
+                            <% }%>
 
-                <div class="col-md-3">
-                    <label for="validationCustom01" class="form-label">Fecha de envio</label>
-                    <input type="text" class="form-control" id="validationCustom01" value="<%= s.getFechaCreacion()%>" name="Asunto" disabled >
+
+
+                        </div>
+
+                    </div>
                 </div>
 
-                <div class="col-md-3">
-                    <label for="validationCustom01" class="form-label">Usuario</label>
-                    <input type="text" class="form-control" id="validationCustom01" value="<%= Usuario.darNombreUsuario(s.getUsuario())%>" name="Asunto" disabled >
-                </div>
+                <!-- area de comentario -->
 
-                <div class="col-md-3">
-                    <label for="validationCustom04" class="form-label">Tipo</label>
-
-                    <input type="text" class="form-control" name="documento" value=" <%= Tipo.darTipoSolicitud(s.getTipo())%>" id="validationCustom05" disabled >
-
-                </div>
-                <div class="col-md-3">
-                    <label for="validationCustom05" class="form-label">Fecha limite</label>
-                    <input type="text" class="form-control" name="documento" value=" <%= s.getFechaDeRespuesta()%>" id="validationCustom05" disabled >
-                </div>
-                <div class="col-md-12">
-                    <label for="validationTextarea" class="form-label">Descripcion</label>
-                    <textarea class="form-control" id="validationTextarea" name="Descripcion"  disabled ><%= s.getDescripcion()%></textarea>
-
+                <div class="row" style="margin: 5px 10px;">
+                    <textarea name="" id="" disabled style="border-radius: 10px;"> <%= s.getDescripcion()%>
+                    </textarea>
                 </div>
 
 
-                <!-- Mostrar Documento -->
-
-                <div class="col-md-12 text-center" style="margin: 10px">
-                    <% if (s.getArchivo() == null
-                                || s.getArchivo().isEmpty()) {
-                    %>
-
-                    <button type="button"
-                            class="btn btn-success">
-                        Sin Documentacion
-                    </button>
-
-
-                    <% } else {%>
-                    <button type="button"
-                            class="btn btn-success"
-                            data-bs-toggle="modal"
-                            data-bs-target="#Archivo<%= s.getId_Solicitud()%>">
-                        <i
-                            class="bi bi-file-earmark-pdf-fill"></i> Documento
-                    </button>
-                    <% }%>
-
-
-
-                </div>
                 <%
                     List<Comentario> listaC = Comentario.comentariosDeSolicitud(s.getId_Solicitud());
 
@@ -83,13 +84,26 @@
                 %>
 
 
-
-                <div class="col-md-12">
-                    <label for="validationTextarea" class="form-label"> <%= Usuario.darNombreUsuario(c.getUsuario())%></label>
-                    <textarea class="form-control" id="validationTextarea" name="Descripcion"  disabled ><%= c.getComentario()%></textarea>
-
+            
+                <div class="d-flex mb-1">
+                    <div class="me-auto p-2">
+                        <div class=" flex-grow-1">
+                            <div>
+                                <i class="bi bi-person-circle" style="font-size: 40px;"></i>
+                                <label for="" style="font-size: larger; font-weight: bold;"> <%= Usuario.darNombreUsuario(c.getUsuario())%> </label>
+                                <span
+                                    style="font-size: 12px; color: rgb(192, 193, 194);">(<%= Usuario.darUsuarioPorId(c.getUsuario()).getCorreo()%>)</span>
+                                <span style="font-size: 12px; color: rgb(192, 193, 194);"> porner fecha  </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <!-- area de comentario -->
 
+                <div class="row" style="margin: 5px 10px;">
+                    <textarea name="" id="" disabled style="border-radius: 10px;"> <%= c.getComentario() %>
+                    </textarea>
+                </div>
 
 
                 <%
@@ -97,6 +111,8 @@
                     }
                 %>
 
+
+                <!-- Enviar nuevo comentario -->
                 <form action="SvComentario"  method="post" enctype="multipart/form-data">
 
                     <input type="hidden" id="campoOculto" name="solicitud" value="<%= s.getId_Solicitud()%>">
@@ -109,36 +125,55 @@
                             <label for="validationTextarea" id="comentario" class="form-label">Comentario</label>
 
                         </div>
-                        <textarea class="form-control" id="comentario" name="comentario" placeholder="Escribe una respuesta" required></textarea>
+                        
+                        <textarea class="form-control" <%= (s.getEstado()==3) ? "disabled" : "" %>  id="comentario" name="comentario" placeholder="Escribe una respuesta" required></textarea>
                         <div class="invalid-feedback">
                             Por favor escriba algo
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" value="3" name="terminado" id="flexRadioDefault1">
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                Solicitud terminada
-                            </label>
+                        <div class="d-flex justify-content-start">
+                            <div style="margin-right: 10px">
+                                <label>Solicitud Terminada? </label>
+                            </div>
+                            
+                            <div class="form-check" style="margin-right: 10px">
+                                <input class="form-check-input" <%= (s.getEstado()==3) ? "disabled" : "" %>  type="radio" value="3" name="terminado" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Si
+                                </label>
+                            </div>
+                            <div class="form-check" style="margin-right: 10px">
+                                <input class="form-check-input" type="radio"<%= (s.getEstado()==3) ? "disabled" : "" %> value="2" name="terminado" id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    No
+                                </label>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" value="2" name="terminado" id="flexRadioDefault2" checked>
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                Solicitud en tramite
-                            </label>
-                        </div>
+
 
                     </div>
 
                     <div class="col-md-12 text-center" style="margin: 10px">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button  type="submit" class="btn btn-primary">Comentar</button>
-                    </div>
 
-                </form>
+
+                    </div>
 
 
 
             </div>
 
+            <div class="modal-footer justify-content-center" style=" background-color: rgb(14, 34, 56);">
+                <a 
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    >
+                    Cerrar
+                </a>
+                <button  type="submit" <%= (s.getEstado()==3) ? "disabled" : "" %>  class="btn btn-secondary">Comentar</button>
+            </div>
+            </form>
+
         </div>
+
     </div>
 </div>

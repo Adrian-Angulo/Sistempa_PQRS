@@ -6,6 +6,7 @@ package Controlador;
 
 import Modelo.Comentario;
 import Modelo.Solicitud;
+import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -61,28 +62,29 @@ public class SvComentario extends HttpServlet {
         System.out.println("Usuario: " + idUsuario);
 
         // Registrar comentario
+// Registrar comentario
         if (Comentario.registrarComentario(new Comentario(idSolicitud, idUsuario, comentario))) {
             // Actualizar estado de la solicitud según la opción seleccionada
-            switch (estadoSolicitud) {
-                case 2:
-                    Solicitud.actualizarSolicitud(2, idSolicitud);
-                    break;
-                case 3:
-                    Solicitud.actualizarSolicitud(3, idSolicitud);
-                    break;
-                default:
-                    System.out.println("Estado de solicitud no válido");
-                    return;
-            }
+            boolean esAdmin = idUsuario == 2;
+            int nuevoEstado = (estadoSolicitud == 2 || estadoSolicitud == 3) ? estadoSolicitud : -1;
 
-            // Redirigir al panel correspondiente según el tipo de usuario
-            if (idUsuario == 1) {
-                request.getRequestDispatcher("PanelUsuario.jsp").forward(request, response);
+            if (nuevoEstado != -1) {
+                if(!esAdmin){
+                    Solicitud.actualizarSolicitud(nuevoEstado, idSolicitud);
+                    request.getRequestDispatcher("PanelUsuario.jsp").forward(request, response);
+                }else{
+                    Solicitud.actualizarSolicitud(2, idSolicitud);
+                     request.getRequestDispatcher("PanelAdministrador.jsp").forward(request, response);
+                }
+                
+                
+                
             } else {
-                request.getRequestDispatcher("PanelAdministrador.jsp").forward(request, response);
+                System.out.println("Estado de solicitud no válido");
             }
         } else {
-            System.out.println("Error al registrar comentario");
+            // Manejar el caso en que el comentario no se registre correctamente
+            System.out.println("Error al registrar el comentario");
         }
     }
 

@@ -138,18 +138,26 @@
                                                 <%= usu.getFechaCreacion()%>
                                             </td>
                                             <td>
-                                                <!-- boton para editar el rol del usuario -->
-                                                <button type="button"  class="btn btn-primary btnform" data-bs-toggle="modal"  data-bs-target="#EditarRol<%= usu.getId_U()%>">
-                                                    <i class="bi bi-eye-fill"></i>
+                                                <div class="d-inline-flex p-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ver # Solicitudes" >
+
+
+                                                    <!-- boton para editar el rol del usuario -->
+                                                    <button type="button"  class="btn btn-primary btnform" data-bs-toggle="modal"  data-bs-target="#EditarRol<%= usu.getId_U()%>">
+                                                        <i class="bi bi-eye-fill"></i>
+                                                    </button>
+                                                </div>
+
+                                                <div class="d-inline-flex p-0" data-bs-toggle="tooltip" data-bs-placement="top  " data-bs-title="bloquer usuario" >
+
+                                                <!-- boton para bloquear usuario -->
+                                                <button type="button"  class="btn btn-danger btnform" data-bs-toggle="modal"  data-bs-target="#Bloquear<%= usu.getId_U()%>">
+                                                    <i class="bi bi-lock-fill"></i>
                                                 </button>
 
-                                                <!-- boton para editar el rol del usuario -->
-                                                <button type="button"  class="btn btn-primary btnform" data-bs-toggle="modal"  data-bs-target="#VerSolcitudes<%= usu.getId_U()%>">
-                                                    <i class="bi bi-send-fill" ></i>
-                                                </button>
+                                                </div>
 
 
-                                                
+
                                             </td>
 
 
@@ -164,7 +172,7 @@
 
                                         <%@include file="Templates/VerSolicitudesUsuario.jsp" %>
 
-                                        
+
 
 
 
@@ -189,7 +197,7 @@
         </div>
     </div>
     <script >
-        
+
 
     </script>
     <%@include file="Templates/scripts.jsp" %>

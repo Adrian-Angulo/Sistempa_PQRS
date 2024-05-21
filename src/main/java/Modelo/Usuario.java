@@ -34,9 +34,10 @@ public class Usuario {
     private String correo;
     private String contrasena;
     private Timestamp fechaCreacion;
+    private static boolean estado;
     private Timestamp fechaEliminacion;
     private int rol;
-
+    
     public Usuario() {
     }
 
@@ -123,6 +124,16 @@ public class Usuario {
     public void setRol(int rol) {
         this.rol = rol;
     }
+
+    public static boolean isEstado() {
+        return estado;
+    }
+
+    public static void setEstado(boolean estado) {
+        Usuario.estado = estado;
+    }
+    
+    
 
     //metodos estaticos para el menejo de los usuarios
     public static boolean crearUsuario(Usuario usu) {
@@ -292,6 +303,17 @@ public class Usuario {
            }
        }
        return null;
+   }
+   
+   public static void bloquearUsuario( int id ){
+       
+       for (Usuario s : listarUsuarios()) {
+           if(s.getId_U() == id){
+               
+               
+           }
+       }
+       
    }
 
 
