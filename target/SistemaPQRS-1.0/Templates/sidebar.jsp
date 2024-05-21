@@ -54,6 +54,12 @@
                 <span>Inicio</span>
             </a>
         </li>
+        <li class="sidebar-item">
+            <a href="PanelAdministrarUsuarios.jsp" class="sidebar-link">
+                <i class="bi bi-person-lines-fill"></i>
+                <span>Administrar Usuarios</span>
+            </a>
+        </li>
     </ul>
     <div class="sidebar-footer">
         <a href="SvUsuarios" class="sidebar-link">

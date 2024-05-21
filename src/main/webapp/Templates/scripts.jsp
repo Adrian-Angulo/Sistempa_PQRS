@@ -38,7 +38,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap
     });
 
 </script>
-<<script >// Example starter JavaScript for disabling form submissions if there are invalid fields
+<script >// Example starter JavaScript for disabling form submissions if there are invalid fields
     (() => {
         'use strict';
 
@@ -57,5 +57,18 @@ src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap
             }, false);
         });
     })();
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Espera a que se cargue el contenido
+        setTimeout(function () {
+            // Encuentra el elemento de la alerta
+            var alert = document.querySelector('.alert');
+            // Si existe la alerta, ciérrala
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }, 5000); // 5000 milisegundos equivalen a 5 segundos
+    });
+
 </script>
 <script src="scripts/Panel.js"></script>

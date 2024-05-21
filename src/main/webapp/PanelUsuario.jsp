@@ -4,7 +4,7 @@
 <body>
 
     <% Usuario usuario = (Usuario) request.getSession(false).getAttribute("usuario");
-    
+
     %>
     <div class="wrapper">
 
@@ -60,7 +60,7 @@
 
             </div>
 
-
+            
 
             <div class="row">
                 <div class="form-div">
@@ -84,7 +84,7 @@
                                             <th>Tipo</th>
                                             <th>Fecha</th>
                                             <th>Estado</th>
-                                            
+
                                             <th>Seguimiento</th>
                                         </tr>
                                     </thead>
@@ -95,7 +95,7 @@
                                             if (lista == null || lista.isEmpty()) { %>
 
                                         <tr>
-                                            <td colspan="4"> NO HAY SOLICITUDES</td>
+                                            <td colspan="5"> NO HAY SOLICITUDES</td>
                                         </tr>
 
                                         <% } else {
@@ -112,16 +112,16 @@
                                                 <%= s.getFechaCreacion()%>
                                             </td>
                                             <td>
-                                                <% System.out.println("en jsp: "+s.getEstado()); %>
+                                                <% System.out.println("en jsp: " + s.getEstado());%>
                                                 <%=Estado.darEstado(s.getEstado())%>
                                             </td>
-                                         
+
                                             <td>
                                                 <button type="button"
                                                         class="btn btn-primary"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#Ver<%= s.getId_Solicitud()%>">
-                                                        <i
+                                                    <i
                                                         class="bi bi-eye-fill"></i>
                                                 </button>
 
@@ -130,7 +130,7 @@
                                         <%@include file="Templates/Modal_Seguimiento.jsp" %>
 
                                         <%@include file="Templates/Modal_Archivo.jsp" %>
-                                    <% }
+                                        <% }
                                         }%>
 
 

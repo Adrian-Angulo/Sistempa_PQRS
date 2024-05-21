@@ -65,4 +65,57 @@
                 color: rgb(8, 216, 25);
                 font-weight: 900;
             }
+
+            .inputUsu{
+                text-align : center;
+                font-weight: bold;
+
+                border: none;
+                border-radius: 30px;
+                background-color: rgba(14, 34, 56, 0.425);
+            }
+            .labelDeVerInfromacionUsu{
+                font-weight: bold;
+            }
+            .modal-header .modal-footer{
+                background-color: rgb(14, 34, 56)
+            }
+            #verSolicitudes{
+                letter-spacing: 3px;
+                text-decoration: none;
+                color: black ;
+            }
+            #verSolicitudes:hover{
+                font-weight: bold;
+                color: blue;
+            }
+            #TituloEnModalVerInformacion{
+                font-weight: bold;
+                letter-spacing: 5px;
+            }
+            table {
+                width: 100%;
+            }
+
+            #columna {
+                padding: 10px 0;
+
+            }
+
+            #fila {
+                cursor: pointer;
+                justify-content: space-between;
+            }
+            
+
+            #fila :hover {
+                background-color: rgba(38, 59, 83, 0.122);
+            }
+            .btnform{
+                background-color: rgb(14, 34, 56);
+                border:none;
+            }
+            .btnform:hover{
+                background-color: rgba(38, 59, 83, 0.122);
+            }
         </style>

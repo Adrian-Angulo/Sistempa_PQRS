@@ -31,6 +31,7 @@
 
 
             <div class="row">
+
                 <div class="form-div">
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
@@ -69,7 +70,7 @@
 
                                             %>
 
-                                            <option value="<%= t.getId_tipoSolicitud() %>"> <%= t.getNombre_Solicitud()  %></option>
+                                            <option value="<%= t.getId_tipoSolicitud()%>"> <%= t.getNombre_Solicitud()%></option>
 
                                             <%
                                                     }
@@ -102,7 +103,9 @@
                     </div>
                 </div>
             </div>
-
+            <%  String alerta = (String) request.getAttribute("alerta");
+            %>
+            <%@include file="Alertas/alertaSolicitud.jsp" %>
 
         </div>
     </div>

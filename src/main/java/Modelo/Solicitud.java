@@ -253,4 +253,16 @@ public class Solicitud {
         return contador;
     }
 
+    public static List<Solicitud> reportesCercaDeFechaRespuesta() {
+        List<Solicitud> lista = new LinkedList<>();
+        LocalDate now = LocalDate.now();
+        for (Solicitud solicitud : listarSolicitudes()) {
+            LocalDate fechaRespuesta = LocalDate.parse(solicitud.getFechaDeRespuesta());
+            if (fechaRespuesta.minusDays(2).isEqual(now)) {
+                lista.add(solicitud);
+            }
+        }
+        return lista;
+    }
+
 }

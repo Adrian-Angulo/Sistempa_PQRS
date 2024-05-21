@@ -53,9 +53,9 @@ public class SvSolicitudes extends HttpServlet {
         // Procesar el archivo subido, si existe
         if (filePart != null) {
             String fileName = getSubmittedFileName(filePart);
-            String uploadPath = getServletContext().getRealPath("/") + "documentos/" + usuario.getId_U() + fileName;
+            String uploadPath = getServletContext().getRealPath("/") + "documentos/"  + fileName;
             guardarArchivo(filePart, uploadPath);
-            String documento = "documentos/" + usuario.getId_U() + fileName;
+            String documento = "documentos/"  + fileName;
             solicitud.setArchivo(documento);
         }
 

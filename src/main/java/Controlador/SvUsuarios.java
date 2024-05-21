@@ -29,7 +29,7 @@ public class SvUsuarios extends HttpServlet {
 
 // Invalidar la sesión
         session.invalidate();
-         request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     @Override
@@ -59,7 +59,8 @@ public class SvUsuarios extends HttpServlet {
 
                     // registrar el usuario en la base de datos
                     String registro = (Usuario.crearUsuario(usuario)) ? "RegistroExitoso" : "RegistroNoExitoso";
-
+                    // Llamar al método para enviar correo de bienvenida
+                    Usuario.enviarCorreoBienvenida(correo, nombre +" "+ apellido);
                     //enviar mensaje de alerta
                     setAlertAndRedirect(registro, request, response);
                 } else {

@@ -1,4 +1,6 @@
 <%@include  file="Templates/head.jsp" %>
+
+
 </head>
 
 <body>
@@ -16,7 +18,7 @@
             <%@include file="Templates/nav.jsp" %>
             <div class="text-center">
                 <h1>
-                   Panel Administrador
+                    Panel Administrador
                 </h1>
             </div>
 
@@ -32,7 +34,7 @@
                                         class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Solicitudes</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        <%= Solicitud.listarSolicitudes().size() %> </div>
+                                        <%= Solicitud.listarSolicitudes().size()%> </div>
                                 </div>
 
                             </div>
@@ -77,7 +79,7 @@
 
 
 
-              <div class="row">
+            <div class="row">
                 <div class="form-div">
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
@@ -139,8 +141,7 @@
                                                         class="btn btn-primary"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#Ver<%= s.getId_Solicitud()%>">
-                                                    <i
-                                                        class="bi bi-eye-fill"></i>
+                                                    <i class="bi bi-chat-left-text-fill"></i>
                                                 </button>
 
                                             </td>
@@ -154,7 +155,7 @@
 
 
                                         <% }
-                                        }%>
+                                            }%>
 
 
                                     </tbody>

@@ -1,11 +1,7 @@
-<%-- 
-    Document   : index
-    Created on : 16/05/2024, 9:10:17 p. m.
-    Author     : ADRIAN CASTILLO
---%>
+
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,7 +47,7 @@
 
             <!-- menejo de alertar -->
             <%  String alerta = (String) request.getAttribute("alerta");
-                System.out.println(alerta);%>
+            %>
             <%@include file="Alertas/alertaDeIndex.jsp" %>
 
 

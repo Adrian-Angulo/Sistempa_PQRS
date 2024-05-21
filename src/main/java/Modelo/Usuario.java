@@ -16,6 +16,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -119,9 +123,8 @@ public class Usuario {
     public void setRol(int rol) {
         this.rol = rol;
     }
-    
-    //metodos estaticos para el menejo de los usuarios
 
+    //metodos estaticos para el menejo de los usuarios
     public static boolean crearUsuario(Usuario usu) {
         if (!verificarExistencia(usu)) {
             Conexion db_connect = new Conexion();
@@ -133,7 +136,7 @@ public class Usuario {
                     ps.setString(3, usu.getApellido());
                     ps.setString(4, usu.getCorreo());
                     ps.setString(5, usu.getContrasena());
-                    ps.setTimestamp(6, usu.getFechaCreacion());     
+                    ps.setTimestamp(6, usu.getFechaCreacion());
                     ps.setTimestamp(7, usu.getFechaEliminacion());
                     ps.setInt(8, usu.getRol());
                     ps.executeUpdate();
@@ -177,9 +180,9 @@ public class Usuario {
         try (Connection conexion = db_connect.get_connection(); PreparedStatement ps = conexion.prepareStatement("SELECT * FROM usuario"); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Usuario usu = new Usuario(rs.getString("identificacion"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("correo"), rs.getString("contrasena"));
-                usu.setRol( rs.getInt("rol"));
+                usu.setRol(rs.getInt("rol"));
                 usu.setId_U(rs.getInt("ID_Usuario"));
-                usu.setFechaCreacion(rs.getTimestamp("fechaCreacion"));              
+                usu.setFechaCreacion(rs.getTimestamp("fechaCreacion"));
                 usu.setFechaEliminacion(rs.getTimestamp("fechaEliminacion"));
                 listaUsuarios.add(usu);
             }
@@ -189,18 +192,14 @@ public class Usuario {
         return listaUsuarios;
     }
 
-
-
     public static String darNombreUsuario(int id_U) {
         for (Usuario user : listarUsuarios()) {
             if (user.getId_U() == id_U) {
-                return user.getNombre() +" "+ user.getApellido();
+                return user.getNombre() + " " + user.getApellido();
             }
         }
         return null;
     }
-
-
 
     public static Usuario validarUsuario(String correo, String pass) {
         for (Usuario usuario : listarUsuarios()) {
@@ -228,9 +227,64 @@ public class Usuario {
             // Get complete hashed password in hex format
             generatedPassword = sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("error en contraseñaHash: "+e);
+            System.out.println("error en contraseñaHash: " + e);
         }
         return generatedPassword;
     }
+
+   public static void enviarCorreoBienvenida(String destinatario, String nombreUsuario) {
+    final String username = "adrianangulo1080@gmail.com"; // Your email
+    final String password = "1080831081"; // Your email password
+
+    Properties prop = new Properties();
+    prop.put("mail.smtp.host", "smtp.example.com"); // SMTP Host
+    prop.put("mail.smtp.port", "587"); // TLS Port
+    prop.put("mail.smtp.auth", "true"); // Enable authentication
+    prop.put("mail.smtp.starttls.enable", "true"); // Enable STARTTLS
+
+    // Create session
+    Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(username, password);
+        }
+    });
+
+    try {
+        // Create a default MimeMessage object
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("yourEmail@example.com")); // From email
+        message.setRecipients(
+                Message.RecipientType.TO,
+                InternetAddress.parse(destinatario) // To email
+        );
+        message.setSubject("Bienvenido a Nuestra Plataforma"); // Email subject
+        message.setText("Hola " + nombreUsuario + ",\n\n¡Bienvenido a nuestra plataforma! Estamos muy contentos de tenerte con nosotros.\n\nSaludos,\nEl equipo de soporte"); // Email body
+
+        // Send message
+        Transport.send(message);
+
+        System.out.println("Correo de bienvenida enviado con éxito a " + destinatario);
+
+    } catch (MessagingException e) {
+        e.printStackTrace();
+    }
+}
+   /** 
+    * Metodo para dar la cantidad de peticiones de un usuario
+    * @param id
+    * @return 
+    */
+   public static int darCantidadEspecificaDeSolicitudes( int id, String tipo){
+       int cantidad = 0;
+       
+       for (Solicitud s : Solicitud.listarSolicitudes()) {
+           if(s.getUsuario() == id && s.getTipo() == Tipo.darIdSolicitud(tipo)){
+               cantidad++;
+           }
+       }
+       return cantidad;
+   }
+   
+
 
 }
